@@ -1,7 +1,5 @@
 package ru.skypro.homework;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,18 +36,18 @@ public class WebSecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.csrf()
-        .disable()
-        .authorizeHttpRequests(
-            (authorization) ->
-                authorization
-                    .mvcMatchers(AUTH_WHITELIST)
-                    .permitAll()
-                    .mvcMatchers("/ads/**", "/users/**")
-                    .authenticated())
-        .cors()
-        .disable()
-        .httpBasic(withDefaults());
+//    http.csrf()
+//        .disable()
+//        .authorizeHttpRequests(
+//            (authorization) ->
+//                authorization
+//                    .mvcMatchers(AUTH_WHITELIST)
+//                    .permitAll()
+//                    .mvcMatchers("/ads/**", "/users/**")
+//                    .authenticated())
+//        .cors()
+//        .disable()
+//        .httpBasic(withDefaults());
     return http.build();
   }
 

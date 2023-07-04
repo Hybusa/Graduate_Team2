@@ -1,14 +1,19 @@
 package ru.skypro.homework.model;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "comments")
 public class Comment {
 
-    @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
-    private User user;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "postId")
+    long postId;
+    //@ManyToOne
+    //@JoinColumn(name = "user_id", nullable = false)
+    //private User user;
     LocalDateTime createdAt;
     int pk; //НЕПОНЯТНО
 
