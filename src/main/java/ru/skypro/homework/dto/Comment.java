@@ -1,4 +1,4 @@
-package ru.skypro.homework.model;
+package ru.skypro.homework.dto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

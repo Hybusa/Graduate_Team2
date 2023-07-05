@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 public class WebSecurityConfig {
 
@@ -36,18 +38,18 @@ public class WebSecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//    http.csrf()
-//        .disable()
-//        .authorizeHttpRequests(
-//            (authorization) ->
-//                authorization
-//                    .mvcMatchers(AUTH_WHITELIST)
-//                    .permitAll()
-//                    .mvcMatchers("/ads/**", "/users/**")
-//                    .authenticated())
-//        .cors()
-//        .disable()
-//        .httpBasic(withDefaults());
+    http.csrf()
+        .disable()
+        .authorizeHttpRequests(
+            (authorization) ->
+                authorization
+                    .mvcMatchers(AUTH_WHITELIST)
+                    .permitAll()
+                    .mvcMatchers("/ads/**", "/users/**")
+                    .authenticated())
+        .cors()
+        .disable()
+        .httpBasic(withDefaults());
     return http.build();
   }
 

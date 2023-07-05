@@ -1,15 +1,15 @@
-package ru.skypro.homework.model;
+package ru.skypro.homework.dto;
 
 import java.util.List;
 
-public class ResponseWrapperComment {
+public class ResponseWrapperAds {
     private int count;
-    private List<Comment> results;
+    private List<Ads> results;
 
-    public ResponseWrapperComment() {
+    public ResponseWrapperAds() {
     }
 
-    public ResponseWrapperComment(int count, List<Comment> results) {
+    public ResponseWrapperAds(int count, List<Ads> results) {
         this.count = count;
         this.results = results;
     }
@@ -22,11 +22,11 @@ public class ResponseWrapperComment {
         this.count = count;
     }
 
-    public List<Comment> getResults() {
+    public List<Ads> getResults() {
         return results;
     }
 
-    public void setResults(List<Comment> results) {
+    public void setResults(List<Ads> results) {
         this.results = results;
     }
 }
