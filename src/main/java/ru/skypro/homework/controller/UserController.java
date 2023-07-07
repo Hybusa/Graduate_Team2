@@ -6,8 +6,8 @@ import ru.skypro.homework.dto.UserDto;
 
 @RestController
 @RequestMapping("users")
-@CrossOrigin(value = "http://localhost:3000/")
-public class UsersController {
+@CrossOrigin(value = "http://localhost:3000")
+public class UserController {
 
     @PostMapping("set_password")
     public ResponseEntity<String> setPassword(/*@RequestBody LoginReq loginReq*/){
@@ -16,10 +16,10 @@ public class UsersController {
     }
 
     @GetMapping("me")
-    public ResponseEntity<String> getUser(/*@RequestBody User user*/){
+    public ResponseEntity<UserDto> getUser(/*@RequestBody User user*/){
 
         //TODO Complete the method
-        return ResponseEntity.ok("get_me");
+        return ResponseEntity.ok(new UserDto());
     }
 
     @PatchMapping("me")

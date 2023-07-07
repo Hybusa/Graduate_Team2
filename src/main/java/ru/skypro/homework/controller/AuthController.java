@@ -13,6 +13,7 @@ import ru.skypro.homework.dto.RegisterReq;
 import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.service.AuthService;
 
+
 import static ru.skypro.homework.dto.Role.USER;
 
 @Slf4j
@@ -22,6 +23,8 @@ import static ru.skypro.homework.dto.Role.USER;
 public class AuthController {
 
     private final AuthService authService;
+//    private final UserService userService;
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReq req) {
@@ -36,7 +39,7 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody RegisterReq req) {
         Role role = req.getRole() == null ? USER : req.getRole();
         if (authService.register(req, role)) {
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(/*userService.createUser(req)*/).build();
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

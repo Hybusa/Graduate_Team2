@@ -1,4 +1,4 @@
-package ru.skypro.homework;
+package ru.skypro.homework.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +29,7 @@ public class WebSecurityConfig {
     UserDetails user =
         User.builder()
             .username("user@gmail.com")
-            .password("password")
+            .password("user@gmail.com")
             .passwordEncoder((plainText) -> passwordEncoder().encode(plainText))
             .roles("USER")
             .build();

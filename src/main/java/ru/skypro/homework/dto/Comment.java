@@ -1,5 +1,7 @@
 package ru.skypro.homework.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -9,13 +11,11 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "postId")
-    long postId;
-    //@ManyToOne
-    //@JoinColumn(name = "user_id", nullable = false)
-    //private User user;
+    int pk;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
+    private UserDto user;
     LocalDateTime createdAt;
-    int pk; //НЕПОНЯТНО
-
     String text;
 }
