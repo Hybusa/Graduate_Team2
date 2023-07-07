@@ -16,16 +16,16 @@ public class UsersController {
     }
 
     @GetMapping("me")
-    public ResponseEntity<String> getUser(/*@RequestBody User user*/){
+    public ResponseEntity<UserDto> getUser(/*@RequestBody User user*/){
 
         //TODO Complete the method
-        return ResponseEntity.ok("get_me");
+        return ResponseEntity.ok(new UserDto());
     }
 
     @PatchMapping("me")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto){
         //TODO Complete the method
-        return ResponseEntity.ok(new UserDto());
+        return ResponseEntity.ok(userDto);
     }
 
     @PatchMapping(value = "me/image"/*, consumes = MediaType.MULTIPART_FORM_DATA_VALUE*/)

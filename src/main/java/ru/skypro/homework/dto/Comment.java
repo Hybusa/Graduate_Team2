@@ -16,6 +16,5 @@ public class Comment {
     //private User user;
     LocalDateTime createdAt;
     int pk; //НЕПОНЯТНО
-
     String text;
 }
