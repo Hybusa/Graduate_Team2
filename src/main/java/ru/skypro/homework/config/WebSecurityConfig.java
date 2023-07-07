@@ -51,6 +51,17 @@ public class WebSecurityConfig {
         .disable()
         .httpBasic(withDefaults());
     return http.build();
+//    return http
+//            .anonymous(AbstractHttpConfigurer::disable)         // AnonymousAuthenticationFilter
+//            .csrf(AbstractHttpConfigurer::disable)              // CsrfFilter
+//            .sessionManagement(AbstractHttpConfigurer::disable) // DisableEncodeUrlFilter, SessionManagementFilter
+//            .exceptionHandling(AbstractHttpConfigurer::disable) // ExceptionTranslationFilter
+//            .headers(AbstractHttpConfigurer::disable)           // HeaderWriterFilter
+//            .logout(AbstractHttpConfigurer::disable)            // LogoutFilter
+//            .requestCache(AbstractHttpConfigurer::disable)      // RequestCacheAwareFilter
+//            .servletApi(AbstractHttpConfigurer::disable)        // SecurityContextHolderAwareRequestFilter
+//            .securityContext(AbstractHttpConfigurer::disable)   // SecurityContextPersistenceFilter
+//            .build();
   }
 
   @Bean

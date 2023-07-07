@@ -25,7 +25,7 @@ public class UserController {
     @PatchMapping("me")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto){
         //TODO Complete the method
-        return ResponseEntity.ok(new UserDto());
+        return ResponseEntity.ok(userDto);
     }
 
     @PatchMapping(value = "me/image"/*, consumes = MediaType.MULTIPART_FORM_DATA_VALUE*/)
