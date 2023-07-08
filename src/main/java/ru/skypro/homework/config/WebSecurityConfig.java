@@ -1,5 +1,8 @@
 package ru.skypro.homework.config;
 
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,63 +12,54 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.skypro.homework.service.impl.UserService;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class WebSecurityConfig {
 
-  private static final String[] AUTH_WHITELIST = {
-    "/swagger-resources/**",
-    "/swagger-ui.html",
-    "/v3/api-docs",
-    "/webjars/**",
-    "/login",
-    "/register"
-  };
+    private final Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
+    private final UserService userService;
 
-  @Bean
-  public InMemoryUserDetailsManager userDetailsService() {
-    UserDetails user =
-        User.builder()
-            .username("user@gmail.com")
-            .password("user@gmail.com")
-            .passwordEncoder((plainText) -> passwordEncoder().encode(plainText))
-            .roles("USER")
-            .build();
-    return new InMemoryUserDetailsManager(user);
-  }
+    private static final String[] AUTH_WHITELIST = {
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v3/api-docs",
+            "/webjars/**",
+            "/login",
+            "/register"
+    };
 
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.csrf()
-        .disable()
-        .authorizeHttpRequests(
-            (authorization) ->
-                authorization
-                    .mvcMatchers(AUTH_WHITELIST)
-                    .permitAll()
-                    .mvcMatchers("/ads/**", "/users/**")
-                    .authenticated())
-        .cors()
-        .disable()
-        .httpBasic(withDefaults());
-    return http.build();
-//    return http
-//            .anonymous(AbstractHttpConfigurer::disable)         // AnonymousAuthenticationFilter
-//            .csrf(AbstractHttpConfigurer::disable)              // CsrfFilter
-//            .sessionManagement(AbstractHttpConfigurer::disable) // DisableEncodeUrlFilter, SessionManagementFilter
-//            .exceptionHandling(AbstractHttpConfigurer::disable) // ExceptionTranslationFilter
-//            .headers(AbstractHttpConfigurer::disable)           // HeaderWriterFilter
-//            .logout(AbstractHttpConfigurer::disable)            // LogoutFilter
-//            .requestCache(AbstractHttpConfigurer::disable)      // RequestCacheAwareFilter
-//            .servletApi(AbstractHttpConfigurer::disable)        // SecurityContextHolderAwareRequestFilter
-//            .securityContext(AbstractHttpConfigurer::disable)   // SecurityContextPersistenceFilter
-//            .build();
-  }
+    public WebSecurityConfig(UserService userService) {
+        this.userService = userService;
+    }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+        return new InMemoryUserDetailsManager(userService.getUserDetails());
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        logger.info("Processing: " + http.toString());
+        http.csrf()
+                .disable()
+                .authorizeHttpRequests(
+                        (authorization) ->
+                                authorization
+                                        .mvcMatchers(AUTH_WHITELIST)
+                                        .permitAll()
+                                        .mvcMatchers("/ads/**", "/users/**")
+                                        .authenticated())
+                .cors()
+                .and()
+                .httpBasic(withDefaults());
+        return http.build();
+    }
+
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

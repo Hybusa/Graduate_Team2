@@ -1,14 +1,14 @@
 package ru.skypro.homework.dto;
 
-public class CreateAds {
+public class CreateOrUpdateAds {
     private String description;
     private int price;
     private String title;
 
-    public CreateAds() {
+    public CreateOrUpdateAds() {
     }
 
-    public CreateAds(String description, int price, String title) {
+    public CreateOrUpdateAds(String description, int price, String title) {
         this.description = description;
         this.price = price;
         this.title = title;

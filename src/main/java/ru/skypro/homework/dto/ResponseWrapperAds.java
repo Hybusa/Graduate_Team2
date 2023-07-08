@@ -1,15 +1,17 @@
 package ru.skypro.homework.dto;
 
+import ru.skypro.homework.model.Ad;
+
 import java.util.List;
 
 public class ResponseWrapperAds {
     private int count;
-    private List<Ads> results;
+    private List<Ad> results;
 
     public ResponseWrapperAds() {
     }
 
-    public ResponseWrapperAds(int count, List<Ads> results) {
+    public ResponseWrapperAds(int count, List<Ad> results) {
         this.count = count;
         this.results = results;
     }
@@ -22,11 +24,11 @@ public class ResponseWrapperAds {
         this.count = count;
     }
 
-    public List<Ads> getResults() {
+    public List<Ad> getResults() {
         return results;
     }
 
-    public void setResults(List<Ads> results) {
+    public void setResults(List<Ad> results) {
         this.results = results;
     }
 }

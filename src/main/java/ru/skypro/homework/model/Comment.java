@@ -1,4 +1,4 @@
-package ru.skypro.homework.dto;
+package ru.skypro.homework.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -11,11 +11,11 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    int pk;
+    int id;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference
-    private UserDto user;
+    private User user;
     LocalDateTime createdAt;
     String text;
 }

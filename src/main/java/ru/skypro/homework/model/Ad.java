@@ -1,4 +1,4 @@
-package ru.skypro.homework.dto;
+package ru.skypro.homework.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -6,53 +6,56 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "ads")
-public class Ads {
+public class Ad {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference
-    private UserDto author;
-    private String image;
+    private User author;
+
+    @OneToOne
+    @JoinColumn(name ="image_id")
+    private Image image;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int pk;
+    private int id;
     private int price;
     private String title;
 
-    public Ads() {
+    public Ad() {
     }
 
-    public Ads(UserDto author, String image, int pk, int price, String title) {
+    public Ad(User author, Image image, int id, int price, String title) {
         this.author = author;
         this.image = image;
-        this.pk = pk;
+        this.id = id;
         this.price = price;
         this.title = title;
     }
 
-    public UserDto getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(UserDto author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 
-    public String getImage() {
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 
-    public int getPk() {
-        return pk;
+    public int getId() {
+        return id;
     }
 
-    public void setPk(int pk) {
-        this.pk = pk;
+    public void setId(int pk) {
+        this.id = pk;
     }
 
     public int getPrice() {
