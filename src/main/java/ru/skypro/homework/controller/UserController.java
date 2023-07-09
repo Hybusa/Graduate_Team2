@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.NewPassword;
+import ru.skypro.homework.dto.UserGet;
 import ru.skypro.homework.dto.UserUpdate;
 import ru.skypro.homework.model.Image;
 import ru.skypro.homework.model.User;
@@ -50,9 +51,9 @@ public class UserController {
     }
 
     @GetMapping("me")
-    public ResponseEntity<User> getUser() {
-        Optional<User> userOptional = userService
-                .getUserByLogin(
+    public ResponseEntity<UserGet> getUser() {
+        Optional<UserGet> userOptional = userService
+                .getUserDtoByLogin(
                         SecurityContextHolder
                                 .getContext()
                                 .getAuthentication()

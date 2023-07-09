@@ -3,6 +3,7 @@ package ru.skypro.homework.service.impl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.RegisterReq;
+import ru.skypro.homework.dto.UserGet;
 import ru.skypro.homework.dto.UserUpdate;
 import ru.skypro.homework.model.Image;
 import ru.skypro.homework.model.Role;
@@ -50,14 +51,14 @@ public class UserService {
 
     public Optional<User> updateUserInfo(UserUpdate userUpdate, String login) {
         Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(login);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setFirstName(userUpdate.getFirstName().toUpperCase());
-            user.setLastName(userUpdate.getLastName().toUpperCase());
-            user.setPhone(userUpdate.getPhone());
-            return Optional.of(userRepository.save(user));
-        }
-        return Optional.empty();
+        if (optionalUser.isEmpty())
+            return Optional.empty();
+
+        User user = optionalUser.get();
+        user.setFirstName(userUpdate.getFirstName().toUpperCase());
+        user.setLastName(userUpdate.getLastName().toUpperCase());
+        user.setPhone(userUpdate.getPhone());
+        return Optional.of(userRepository.save(user));
     }
 
     public void updateUserImage(User user){
@@ -70,12 +71,12 @@ public class UserService {
 
     public Optional<User> updatePassword(String login, String newPassword) {
         Optional<User> userOptional = userRepository.findByEmailIgnoreCase(login);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setPassword(newPassword);
-            return Optional.of(userRepository.save(user));
-        }
-        return Optional.empty();
+        if (userOptional.isEmpty())
+            return Optional.empty();
+
+        User user = userOptional.get();
+        user.setPassword(newPassword);
+        return Optional.of(userRepository.save(user));
     }
 
     public Optional<Image> getUserImage(String login) {
@@ -83,6 +84,10 @@ public class UserService {
         return userOptional.map(User::getImage);
     }
 
+    public Optional<UserGet> getUserDtoByLogin(String login){
+       Optional<User> userOptional =  userRepository.findByEmailIgnoreCase(login);
+        return userOptional.map(UserGet::new);
+    }
     public Optional<User> getUserByLogin(String login) {
         return userRepository.findByEmailIgnoreCase(login);
     }
