@@ -60,6 +60,10 @@ public class UserService {
         return Optional.empty();
     }
 
+    public void updateUserImage(User user){
+        userRepository.save(user);
+    }
+
 //    public boolean checkOldPassword(String login, String currentPassword) {
 //        return getUserByLogin(login).getPassword().equals(currentPassword);
 //    }
@@ -82,4 +86,6 @@ public class UserService {
     public Optional<User> getUserByLogin(String login) {
         return userRepository.findByEmailIgnoreCase(login);
     }
+
+
 }

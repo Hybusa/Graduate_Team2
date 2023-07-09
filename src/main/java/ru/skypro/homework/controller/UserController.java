@@ -13,8 +13,10 @@ import ru.skypro.homework.dto.UserUpdate;
 import ru.skypro.homework.model.Image;
 import ru.skypro.homework.model.User;
 import ru.skypro.homework.service.AuthService;
+import ru.skypro.homework.service.impl.ImageService;
 import ru.skypro.homework.service.impl.UserService;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Slf4j
@@ -24,10 +26,12 @@ import java.util.Optional;
 public class UserController {
     private final UserService userService;
     private final AuthService authService;
+    private final ImageService imageService;
 
-    public UserController(UserService userService, AuthService authService) {
+    public UserController(UserService userService, AuthService authService, ImageService imageService) {
         this.userService = userService;
         this.authService = authService;
+        this.imageService = imageService;
     }
 
 
@@ -77,11 +81,13 @@ public class UserController {
     }
 
     @PatchMapping(value = "me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Image> updateUserImage(@RequestBody MultipartFile image) {
-        Optional<Image> imageOptional = userService.getUserImage(SecurityContextHolder
+    public ResponseEntity<Image> updateUserImage(@RequestBody MultipartFile image) throws IOException {
+
+        if(imageService.updateUserAvatar(image, SecurityContextHolder
                 .getContext()
                 .getAuthentication()
-                .getName());
-        return imageOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).build());
+                .getName()))
+           return ResponseEntity.ok().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
