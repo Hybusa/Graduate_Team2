@@ -42,6 +42,7 @@ CREATE TABLE ads
     image_id BIGINT,
     price    INT,
     title    VARCHAR(255),
+    description varchar(255),
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (image_id) REFERENCES images (id)
 );

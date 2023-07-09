@@ -1,6 +1,7 @@
 package ru.skypro.homework.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import ru.skypro.homework.dto.CreateOrUpdateAds;
 
 import javax.persistence.*;
 
@@ -19,19 +20,21 @@ public class Ad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private int price;
     private String title;
+
+    private String description;
 
     public Ad() {
     }
 
-    public Ad(User author, Image image, int id, int price, String title) {
-        this.author = author;
-        this.image = image;
-        this.id = id;
-        this.price = price;
-        this.title = title;
+
+    public Ad(User user, CreateOrUpdateAds newAd){
+        this.author = user;
+        this.price = newAd.getPrice();
+        this.title = newAd.getTitle();
+        this.description = newAd.getDescription();
     }
 
     public User getAuthor() {
@@ -50,12 +53,12 @@ public class Ad {
         this.image = image;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int pk) {
-        this.id = pk;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public int getPrice() {

@@ -11,6 +11,7 @@ import ru.skypro.homework.repository.ImageRepository;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.InputMismatchException;
 import java.util.Optional;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
@@ -42,6 +43,27 @@ public class ImageService {
         Path filepath = Path.of(imageDir, login.hashCode()
                 + "." +ImageProcessor.getExtension(fileName));
 
+        Image newImage = processImage(image, filepath);
+
+        user.setImage(imageRepository.save(newImage));
+        userService.updateUserImage(user);
+        return true;
+    }
+    public Image addAdImage(MultipartFile image, long adId) throws IOException {
+
+        if (image == null ||image.getOriginalFilename()==null)
+            throw new InputMismatchException();
+
+        String fileName = image.getOriginalFilename();
+
+        Path filepath = Path.of(imageDir, "ad_"+adId
+                + "." +ImageProcessor.getExtension(fileName));
+
+        Image newImage = processImage(image, filepath);
+        return imageRepository.save(newImage);
+    }
+
+    private Image processImage(MultipartFile image, Path filepath) throws IOException {
         Files.createDirectories(filepath.getParent());
         Files.deleteIfExists(filepath);
 
@@ -62,9 +84,9 @@ public class ImageService {
         newImage.setFileSize(image.getSize());
         newImage.setMediaType(image.getContentType());
         newImage.setPreview(ImageProcessor.generateImagePreview(filepath));
-
-        user.setImage(imageRepository.save(newImage));
-        userService.updateUserImage(user);
-        return true;
+        return newImage;
     }
+
+
+
 }

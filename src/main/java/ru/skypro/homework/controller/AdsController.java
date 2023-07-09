@@ -32,10 +32,13 @@ public class AdsController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Ad> addAds(@RequestPart("image") MultipartFile image,
+    public ResponseEntity<ResponseAd> addAds(@RequestPart("image") MultipartFile image,
                                      @RequestBody CreateOrUpdateAds createOrUpdateAds) {
-        //adsService.createOrUpdateAd();
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        ResponseAd responseAd = adsService.createOrUpdateAd(
+                SecurityContextHolder.getContext().getAuthentication().getName(),
+                image,
+                createOrUpdateAds);
+        return  new ResponseEntity<>(responseAd,HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
