@@ -12,7 +12,6 @@ import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.dto.UserGet;
 import ru.skypro.homework.dto.UserUpdate;
 import ru.skypro.homework.model.Image;
-import ru.skypro.homework.model.User;
 import ru.skypro.homework.service.AuthService;
 import ru.skypro.homework.service.impl.ImageService;
 import ru.skypro.homework.service.impl.UserService;
@@ -66,16 +65,16 @@ public class UserController {
     }
 
     @PatchMapping("me")
-    public ResponseEntity<User> updateUser(@RequestBody UserUpdate userUpdate) {
+    public ResponseEntity<UserGet> updateUser(@RequestBody UserUpdate userUpdate) {
 
-        Optional<User> userOptional = userService.updateUserInfo(
+        Optional<UserGet> userGetOptional = userService.updateUserInfo(
                 userUpdate,
                 SecurityContextHolder
                         .getContext()
                         .getAuthentication()
                         .getName());
 
-        return userOptional
+        return userGetOptional
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).build());
 

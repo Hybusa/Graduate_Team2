@@ -24,8 +24,7 @@ public class UserGet {
         this.lastName = user.getLastName();
         this.phone = user.getPhone();
         if(user.getImage()!=null) {
-            Image image = user.getImage();
-            this.image = "data:" + image.getMediaType()+ ";base64," + Base64.getEncoder().encodeToString(image.getPreview());
+            this.image = "\\" +user.getImage().getFilePath();
         }
         else
             this.image = null;

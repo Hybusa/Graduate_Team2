@@ -49,7 +49,7 @@ public class UserService {
         return result;
     }
 
-    public Optional<User> updateUserInfo(UserUpdate userUpdate, String login) {
+    public Optional<UserGet> updateUserInfo(UserUpdate userUpdate, String login) {
         Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(login);
         if (optionalUser.isEmpty())
             return Optional.empty();
@@ -58,7 +58,8 @@ public class UserService {
         user.setFirstName(userUpdate.getFirstName().toUpperCase());
         user.setLastName(userUpdate.getLastName().toUpperCase());
         user.setPhone(userUpdate.getPhone());
-        return Optional.of(userRepository.save(user));
+        user = userRepository.save(user);
+        return Optional.of(new UserGet(user));
     }
 
     public void updateUserImage(User user){
@@ -91,6 +92,4 @@ public class UserService {
     public Optional<User> getUserByLogin(String login) {
         return userRepository.findByEmailIgnoreCase(login);
     }
-
-
 }

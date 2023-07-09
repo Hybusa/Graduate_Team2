@@ -53,10 +53,8 @@ public class ImageService {
             bis.transferTo(bos);
         }
         Image newImage;
-        if(imageRepository.existsByFilePath(filepath.toString())) {
+        if(imageRepository.existsByFilePath(filepath.toString()))
             newImage = imageRepository.findByFilePath(filepath.toString());
-            imageRepository.deleteById(newImage.getId());
-        }
         else
             newImage = new Image();
 
@@ -66,7 +64,6 @@ public class ImageService {
         newImage.setPreview(ImageProcessor.generateImagePreview(filepath));
 
         user.setImage(imageRepository.save(newImage));
-
         userService.updateUserImage(user);
         return true;
     }

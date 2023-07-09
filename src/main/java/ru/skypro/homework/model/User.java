@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -28,7 +29,7 @@ public class User {
 
     @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
     @JsonManagedReference
-    private Collection<Ad> userAds;
+    private List<Ad> userAds;
 
     public User(String email, String firstName, String lastName, String password, String phone,
                 LocalDate regDate, Image image, String role) {
@@ -65,11 +66,11 @@ public class User {
         this.role = role;
     }
 
-    public Collection<Ad> getUserAds() {
+    public List<Ad> getUserAds() {
         return userAds;
     }
 
-    public void setUserAds(Collection<Ad> userAds) {
+    public void setUserAds(List<Ad> userAds) {
         this.userAds = userAds;
     }
 

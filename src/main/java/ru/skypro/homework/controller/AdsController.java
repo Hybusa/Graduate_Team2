@@ -4,11 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.Comment;
+import ru.skypro.homework.service.impl.AdsService;
 
 import java.util.List;
 
@@ -17,6 +19,12 @@ import java.util.List;
 @RequestMapping("ads")
 @CrossOrigin(value = "http://localhost:3000")
 public class AdsController {
+
+    private final AdsService adsService;
+
+    public AdsController(AdsService adsService) {
+        this.adsService = adsService;
+    }
 
     @GetMapping
     public ResponseEntity<ResponseWrapperAds> getAllAds() {
@@ -52,9 +60,8 @@ public class AdsController {
     }
 
     @GetMapping("me")
-    public ResponseEntity<List<Ad>> getMyAds(){
-        //TODO Complete the method
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ResponseWrapperAds> getMyAds(){
+        return ResponseEntity.ok(adsService.getMyAds(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 
     @PatchMapping("{id}/image")
