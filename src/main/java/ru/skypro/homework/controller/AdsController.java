@@ -28,14 +28,13 @@ public class AdsController {
 
     @GetMapping
     public ResponseEntity<ResponseWrapperAds> getAllAds() {
-        //TODO Complete the method
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok(adsService.getAllAds());
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Ad> addAds(@RequestPart("image") MultipartFile image,
                                      @RequestBody CreateOrUpdateAds createOrUpdateAds) {
-        //TODO Complete the method
+        //adsService.createOrUpdateAd();
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

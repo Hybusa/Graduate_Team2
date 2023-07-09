@@ -39,8 +39,8 @@ public class ImageService {
 
         String fileName = image.getOriginalFilename();
 
-        Path filepath = Path.of(imageDir, login.substring(0,login.indexOf(".")+1)
-                + ImageProcessor.getExtension(fileName));
+        Path filepath = Path.of(imageDir, login.hashCode()
+                + "." +ImageProcessor.getExtension(fileName));
 
         Files.createDirectories(filepath.getParent());
         Files.deleteIfExists(filepath);

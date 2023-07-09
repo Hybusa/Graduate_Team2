@@ -2,10 +2,7 @@ package ru.skypro.homework.dto;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import ru.skypro.homework.model.Image;
 import ru.skypro.homework.model.User;
-
-import java.util.Base64;
 
 @Data
 @RequiredArgsConstructor
@@ -23,9 +20,8 @@ public class UserGet {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.phone = user.getPhone();
-        if(user.getImage()!=null) {
-            this.image = "\\" +user.getImage().getFilePath();
-        }
+        if(user.getImage()!=null)
+            this.image = "\\" + user.getImage().getFilePath();
         else
             this.image = null;
     }

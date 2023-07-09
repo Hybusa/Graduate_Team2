@@ -1,5 +1,7 @@
 package ru.skypro.homework.dto;
 
+import ru.skypro.homework.model.User;
+
 public class UserUpdate {
     String firstName;
     String lastName;
@@ -9,6 +11,12 @@ public class UserUpdate {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
+    }
+
+    public UserUpdate(User user){
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.phone = user.getPhone();
     }
 
     public UserUpdate() {

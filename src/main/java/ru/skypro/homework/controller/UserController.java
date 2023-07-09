@@ -65,9 +65,9 @@ public class UserController {
     }
 
     @PatchMapping("me")
-    public ResponseEntity<UserGet> updateUser(@RequestBody UserUpdate userUpdate) {
+    public ResponseEntity<UserUpdate> updateUser(@RequestBody UserUpdate userUpdate) {
 
-        Optional<UserGet> userGetOptional = userService.updateUserInfo(
+        Optional<UserUpdate> userGetOptional = userService.updateUserInfo(
                 userUpdate,
                 SecurityContextHolder
                         .getContext()
@@ -81,7 +81,7 @@ public class UserController {
     }
 
     @PatchMapping(value = "me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Image> updateUserImage(@RequestBody MultipartFile image) throws IOException {
+    public ResponseEntity<?> updateUserImage(@RequestBody MultipartFile image) throws IOException {
 
         if(imageService.updateUserAvatar(image, SecurityContextHolder
                 .getContext()

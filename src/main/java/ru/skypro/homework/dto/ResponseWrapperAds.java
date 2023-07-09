@@ -16,6 +16,11 @@ public class ResponseWrapperAds {
         this.results = results;
     }
 
+    public ResponseWrapperAds(List<Ad> ads){
+        this.count = ads.size();
+        this.results = ads;
+    }
+
     public int getCount() {
         return count;
     }
