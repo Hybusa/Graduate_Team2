@@ -1,9 +1,10 @@
 package ru.skypro.homework.dto;
 
 public class CreateOrUpdateAds {
-    private String description;
-    private int price;
     private String title;
+    private int price;
+    private String description;
+
 
     public CreateOrUpdateAds() {
     }

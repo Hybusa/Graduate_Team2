@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.CreateOrUpdateAds;
 import ru.skypro.homework.dto.ResponseAd;
+import ru.skypro.homework.dto.ResponseFullAd;
 import ru.skypro.homework.dto.ResponseWrapperAds;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.Image;
@@ -57,5 +58,50 @@ public class AdsService {
         }
         newAd.setImage(savedImage);
         return new ResponseAd(adsRepository.save(newAd));
+    }
+
+    public Optional<ResponseFullAd> getResponseFullAd(Long id){
+        Optional<Ad> adOptional = adsRepository.findById(id);
+        ResponseFullAd responseFullAd;
+        Ad ad;
+        if(adOptional.isEmpty())
+            return Optional.empty();
+        else{
+            ad = adOptional.get();
+            responseFullAd = new ResponseFullAd(ad);
+        }
+        return Optional.of(responseFullAd);
+
+    }
+
+    public boolean deleteAdById(Long id) {
+        return adsRepository.existsById(id);
+    }
+
+    public Optional<ResponseAd> updateAd(Long id, CreateOrUpdateAds updatedAd) {
+       Optional<Ad> adOptional = adsRepository.findById(id);
+       if(adOptional.isEmpty())
+           return Optional.empty();
+       Ad ad = adOptional.get();
+       ad.setTitle(updatedAd.getTitle());
+       ad.setPrice(updatedAd.getPrice());
+       ad.setDescription(updatedAd.getDescription());
+
+       return Optional.of(new ResponseAd(adsRepository.save(ad)));
+    }
+
+    public Optional<String> updateAdImage(Long id, MultipartFile image) {
+        //TODO What string to return(for now it's path);
+
+        Optional<Ad> adOptional = adsRepository.findById(id);
+        if(adOptional.isEmpty())
+            return Optional.empty();
+        Image newImage;
+        try {
+            newImage = imageService.addAdImage(image, id);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return Optional.of("\\" + newImage.getFilePath());
     }
 }

@@ -4,14 +4,14 @@ import ru.skypro.homework.model.Comment;
 
 import java.util.List;
 
-public class ResponseWrapperComment {
+public class ResponseWrapperComments {
     private int count;
     private List<Comment> results;
 
-    public ResponseWrapperComment() {
+    public ResponseWrapperComments() {
     }
 
-    public ResponseWrapperComment(int count, List<Comment> results) {
+    public ResponseWrapperComments(int count, List<Comment> results) {
         this.count = count;
         this.results = results;
     }

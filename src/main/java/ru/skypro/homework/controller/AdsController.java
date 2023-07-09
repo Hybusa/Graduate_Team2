@@ -13,6 +13,7 @@ import ru.skypro.homework.model.Comment;
 import ru.skypro.homework.service.impl.AdsService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -42,23 +43,23 @@ public class AdsController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Ad> getFullAd(@PathVariable("id") int id) {
-        //TODO Complete the method
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ResponseFullAd> getFullAd(@PathVariable("id") Long id) {
+        Optional<ResponseFullAd> adOptional =  adsService.getResponseFullAd(id);
+        return adOptional.map(ResponseEntity::ok).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> removeAds(@PathVariable("id") int id) {
-        //TODO Complete the method
-        // Return a 204 No Content response
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> removeAd(@PathVariable("id") Long id) {
+        if(adsService.deleteAdById(id))
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<Ad> updateAds(@PathVariable("id") int id,
-                                        @RequestBody CreateOrUpdateAds updatedAds) {
-        //TODO Complete the method
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ResponseAd> updateAds(@PathVariable("id") Long id,
+                                        @RequestBody CreateOrUpdateAds updatedAd) {
+        Optional<ResponseAd> responseAdOptional = adsService.updateAd(id, updatedAd);
+        return responseAdOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("me")
@@ -68,9 +69,12 @@ public class AdsController {
     }
 
     @PatchMapping("{id}/image")
-    public ResponseEntity<Comment> updateComments(@PathVariable("id") int id,
-                                                  @RequestPart("image") MultipartFile image) {
-        //TODO Complete the method
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> updateAdImage(@PathVariable("id") Long id,
+                                                  @RequestBody MultipartFile image) {
+        Optional<String> responseStringOptional = adsService.updateAdImage(id,image);
+        if(responseStringOptional.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(responseStringOptional.get());
     }
 }
