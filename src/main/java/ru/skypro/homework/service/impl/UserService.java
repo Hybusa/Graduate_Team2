@@ -2,9 +2,9 @@ package ru.skypro.homework.service.impl;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import ru.skypro.homework.dto.RegisterReq;
-import ru.skypro.homework.dto.UserGet;
-import ru.skypro.homework.dto.UserUpdate;
+import ru.skypro.homework.dto.authentication.RegisterReq;
+import ru.skypro.homework.dto.users.UserGet;
+import ru.skypro.homework.dto.users.UserUpdate;
 import ru.skypro.homework.model.Image;
 import ru.skypro.homework.model.Role;
 import ru.skypro.homework.model.User;

@@ -7,12 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.*;
-import ru.skypro.homework.model.Ad;
-import ru.skypro.homework.model.Comment;
+import ru.skypro.homework.dto.ads.CreateOrUpdateAds;
+import ru.skypro.homework.dto.ads.ResponseAd;
+import ru.skypro.homework.dto.ads.ResponseFullAd;
+import ru.skypro.homework.dto.ads.ResponseWrapperAds;
 import ru.skypro.homework.service.impl.AdsService;
 
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j

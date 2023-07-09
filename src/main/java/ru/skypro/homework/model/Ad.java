@@ -1,10 +1,13 @@
 package ru.skypro.homework.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
-import ru.skypro.homework.dto.CreateOrUpdateAds;
+import lombok.ToString;
+import ru.skypro.homework.dto.ads.CreateOrUpdateAds;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "ads")
@@ -23,10 +26,19 @@ public class Ad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private int price;
+
     private String title;
 
     private String description;
+
+    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @ToString.Exclude
+    private List<Comment> adsComments;
+
+
 
     public Ad() {}
     public Ad(User user, CreateOrUpdateAds newAd){

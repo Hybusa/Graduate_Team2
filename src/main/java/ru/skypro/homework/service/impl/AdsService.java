@@ -2,10 +2,10 @@ package ru.skypro.homework.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.CreateOrUpdateAds;
-import ru.skypro.homework.dto.ResponseAd;
-import ru.skypro.homework.dto.ResponseFullAd;
-import ru.skypro.homework.dto.ResponseWrapperAds;
+import ru.skypro.homework.dto.ads.CreateOrUpdateAds;
+import ru.skypro.homework.dto.ads.ResponseAd;
+import ru.skypro.homework.dto.ads.ResponseFullAd;
+import ru.skypro.homework.dto.ads.ResponseWrapperAds;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.Image;
 import ru.skypro.homework.model.User;

@@ -1,21 +1,27 @@
 package ru.skypro.homework.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comments")
+@Data
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    int id;
+    Long id;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference
     private User user;
-    LocalDateTime createdAt;
+    long createdAt;
     String text;
+
+    @ManyToOne
+    @JoinColumn(name = "ad_id", nullable = false)
+    @JsonBackReference
+    private Ad ad;
 }

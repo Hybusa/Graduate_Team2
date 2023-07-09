@@ -5,8 +5,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
-import ru.skypro.homework.dto.NewPassword;
-import ru.skypro.homework.dto.RegisterReq;
+import ru.skypro.homework.dto.authentication.NewPassword;
+import ru.skypro.homework.dto.authentication.RegisterReq;
 import ru.skypro.homework.model.Role;
 import ru.skypro.homework.service.AuthService;
 

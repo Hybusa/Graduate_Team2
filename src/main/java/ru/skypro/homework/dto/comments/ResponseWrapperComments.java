@@ -1,17 +1,15 @@
-package ru.skypro.homework.dto;
-
-import ru.skypro.homework.model.Comment;
+package ru.skypro.homework.dto.comments;
 
 import java.util.List;
 
 public class ResponseWrapperComments {
     private int count;
-    private List<Comment> results;
+    private List<ResponseComment> results;
 
     public ResponseWrapperComments() {
     }
 
-    public ResponseWrapperComments(int count, List<Comment> results) {
+    public ResponseWrapperComments(int count, List<ResponseComment> results) {
         this.count = count;
         this.results = results;
     }
@@ -24,11 +22,11 @@ public class ResponseWrapperComments {
         this.count = count;
     }
 
-    public List<Comment> getResults() {
+    public List<ResponseComment> getResults() {
         return results;
     }
 
-    public void setResults(List<Comment> results) {
+    public void setResults(List<ResponseComment> results) {
         this.results = results;
     }
 }
