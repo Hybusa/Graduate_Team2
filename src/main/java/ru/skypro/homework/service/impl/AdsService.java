@@ -31,6 +31,7 @@ public class AdsService {
     public ResponseWrapperAds getAllAds(){
         return new ResponseWrapperAds(adsRepository.findAll());
     }
+
     public ResponseWrapperAds getMyAds(String login){
         Optional<User> userOptional = userService.getUserByLogin(login);
         if(userOptional.isEmpty())

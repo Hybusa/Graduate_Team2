@@ -33,11 +33,11 @@ public class AdsController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseAd> addAds(@RequestPart("image") MultipartFile image,
-                                     @RequestBody CreateOrUpdateAds createOrUpdateAds) {
+                                             @RequestPart("properties") CreateOrUpdateAds adProperties)  {
         ResponseAd responseAd = adsService.createOrUpdateAd(
                 SecurityContextHolder.getContext().getAuthentication().getName(),
                 image,
-                createOrUpdateAds);
+                adProperties);
         return  new ResponseEntity<>(responseAd,HttpStatus.CREATED);
     }
 
@@ -63,7 +63,8 @@ public class AdsController {
 
     @GetMapping("me")
     public ResponseEntity<ResponseWrapperAds> getMyAds(){
-        return ResponseEntity.ok(adsService.getMyAds(SecurityContextHolder.getContext().getAuthentication().getName()));
+        ResponseWrapperAds responseWrapperAds = adsService.getMyAds(SecurityContextHolder.getContext().getAuthentication().getName());
+        return ResponseEntity.ok(responseWrapperAds);
     }
 
     @PatchMapping("{id}/image")
