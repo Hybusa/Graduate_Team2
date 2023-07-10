@@ -1,6 +1,7 @@
 package ru.skypro.homework.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +34,7 @@ public class User {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
- //   @JsonManagedReference
+ // @JsonManagedReference
     @ToString.Exclude
     private List<Ad> userAds;
 
@@ -47,8 +49,4 @@ public class User {
         this.image = image;
         this.role = role;
     }
-
-    public User() {
-    }
-
 }

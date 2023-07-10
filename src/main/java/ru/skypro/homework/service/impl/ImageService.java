@@ -51,6 +51,7 @@ public class ImageService {
         userService.updateUserImage(user);
         return true;
     }
+
     public Image addAdImage(MultipartFile image, long adId) throws IOException {
 
         if (image == null ||image.getOriginalFilename()==null) {
@@ -91,7 +92,4 @@ public class ImageService {
         newImage.setPreview(ImageProcessor.generateImagePreview(filepath));
         return newImage;
     }
-
-
-
 }

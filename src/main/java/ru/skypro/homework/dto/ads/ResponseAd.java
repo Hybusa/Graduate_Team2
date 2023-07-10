@@ -14,6 +14,7 @@ public class ResponseAd {
 
     public ResponseAd(Ad ad){
         this.author = ad.getAuthor().getId();
+        //TODO Complete directory methods
         this.image = "\\" + ad.getImage().getFilePath();
         this.pk = ad.getId();
         this.price = ad.getPrice();

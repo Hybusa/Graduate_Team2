@@ -50,8 +50,9 @@ public class AdsController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> removeAd(@PathVariable("id") Long id) {
-        if(adsService.deleteAdById(id))
+        if(adsService.deleteAdById(id)) {
             return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.notFound().build();
     }
 
@@ -64,7 +65,13 @@ public class AdsController {
 
     @GetMapping("me")
     public ResponseEntity<ResponseWrapperAds> getMyAds(){
-        ResponseWrapperAds responseWrapperAds = adsService.getMyAds(SecurityContextHolder.getContext().getAuthentication().getName());
+        ResponseWrapperAds responseWrapperAds =
+                adsService.getMyAds(
+                        SecurityContextHolder
+                                .getContext()
+                                .getAuthentication()
+                                .getName()
+                );
         return ResponseEntity.ok(responseWrapperAds);
     }
 
@@ -73,8 +80,9 @@ public class AdsController {
     public ResponseEntity<?> updateAdImage(@PathVariable("id") Long id,
                                                   @RequestPart MultipartFile image) {
         Optional<String> responseStringOptional = adsService.updateAdImage(id,image);
-        if(responseStringOptional.isEmpty())
+        if(responseStringOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
+        }
 
         return ResponseEntity.ok(responseStringOptional.get());
     }

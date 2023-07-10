@@ -36,9 +36,7 @@ public class Ad {
   //  @JsonManagedReference
     @ToString.Exclude
     private List<Comment> adsComments;
-
-
-
+    
     public Ad() {}
     public Ad(User user, CreateOrUpdateAds newAd){
         this.author = user;
@@ -46,7 +44,4 @@ public class Ad {
         this.title = newAd.getTitle();
         this.description = newAd.getDescription();
     }
-
-
-
 }

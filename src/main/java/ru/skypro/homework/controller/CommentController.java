@@ -27,8 +27,9 @@ public class CommentController {
     @GetMapping("{id}/comments")
     public ResponseEntity<ResponseWrapperComments> getAllUserAds(@PathVariable("id") Long id) {
         List<ResponseComment> responseCommentList = commentService.getAllAdComments(id);
-//        if(responseCommentList.isEmpty())
+//        if(responseCommentList.isEmpty()){
 //            return ResponseEntity.notFound().build();
+//    }
         return ResponseEntity.ok(new ResponseWrapperComments(responseCommentList.size(), responseCommentList));
     }
 
@@ -43,8 +44,9 @@ public class CommentController {
 
     @DeleteMapping("{adId}/comments/{commentsId}")
     public ResponseEntity<?> deleteAdComment(@PathVariable("adId") Long adId, @PathVariable("commentsId") Long commentId) {
-        if(commentService.deleteAdComment(adId,commentId))
+        if(commentService.deleteAdComment(adId,commentId)) {
             return ResponseEntity.ok().build();
+        }
         return ResponseEntity.notFound().build();
     }
 
