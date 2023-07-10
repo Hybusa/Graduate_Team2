@@ -4,7 +4,7 @@
 
 CREATE TABLE images
 (
-    id         SERIAL PRIMARY KEY,
+    id         BIGSERIAL PRIMARY KEY,
     data       BYTEA,
     file_path  VARCHAR(255),
     file_size  BIGINT NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE images
 
 CREATE TABLE users
 (
-    id         SERIAL PRIMARY KEY,
+    id         BIGSERIAL PRIMARY KEY,
     email      VARCHAR(255) NOT NULL,
     first_name VARCHAR(255),
     last_name  VARCHAR(255),
@@ -28,7 +28,7 @@ CREATE TABLE users
 
 CREATE TABLE ads
 (
-    id          SERIAL PRIMARY KEY,
+    id          BIGSERIAL PRIMARY KEY,
     user_id     BIGINT NOT NULL,
     image_id    BIGINT,
     price       INT,
@@ -41,7 +41,7 @@ CREATE TABLE ads
 
 CREATE TABLE comments
 (
-    id         SERIAL PRIMARY KEY,
+    id         BIGSERIAL PRIMARY KEY,
     user_id    BIGINT NOT NULL,
     created_at BIGINT,
     text       TEXT,

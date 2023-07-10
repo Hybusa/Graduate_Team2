@@ -14,8 +14,9 @@ public class ResponseComment {
 
     public ResponseComment(Comment comment) {
         Image image = comment.getUser().getImage();
-        if (image != null)
-            this.authorImage = "/" + image;
+        if (image != null) {
+            this.authorImage = "\\" + image;
+        }
         this.authorFirstName = comment.getUser().getFirstName();
         this.createdAt = comment.getCreatedAt();
         this.pk = comment.getId();

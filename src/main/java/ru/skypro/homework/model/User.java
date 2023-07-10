@@ -1,6 +1,5 @@
 package ru.skypro.homework.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.ToString;
 
@@ -33,7 +32,7 @@ public class User {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonManagedReference
+ //   @JsonManagedReference
     @ToString.Exclude
     private List<Ad> userAds;
 

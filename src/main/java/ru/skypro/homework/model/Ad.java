@@ -1,7 +1,5 @@
 package ru.skypro.homework.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.ToString;
 import ru.skypro.homework.dto.ads.CreateOrUpdateAds;
@@ -16,7 +14,7 @@ public class Ad {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference
+   // @JsonBackReference
     private User author;
 
     @OneToOne
@@ -35,7 +33,7 @@ public class Ad {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name= "user_id")
-    @JsonManagedReference
+  //  @JsonManagedReference
     @ToString.Exclude
     private List<Comment> adsComments;
 
