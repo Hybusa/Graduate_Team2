@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class Ad {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference
     private User author;
@@ -33,7 +33,8 @@ public class Ad {
 
     private String description;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name= "user_id")
     @JsonManagedReference
     @ToString.Exclude
     private List<Comment> adsComments;

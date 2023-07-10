@@ -6,8 +6,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -30,7 +28,11 @@ public class User {
 
     private String role;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(
+            mappedBy = "author",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     @JsonManagedReference
     @ToString.Exclude
     private List<Ad> userAds;
