@@ -2,6 +2,7 @@ package ru.skypro.homework.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.dto.comments.CommentString;
 import ru.skypro.homework.dto.comments.ResponseComment;
@@ -34,7 +35,9 @@ public class CommentController {
     @PostMapping("{id}/comments")
     public ResponseEntity<ResponseComment> addCommentToAd(@PathVariable("id") Long id,
                                                           @RequestBody CommentString comment) {
-        Optional<ResponseComment> responseCommentOptional = commentService.createComment(id,comment);
+        Optional<ResponseComment> responseCommentOptional = commentService.createComment(id,
+                comment,
+                SecurityContextHolder.getContext().getAuthentication().getName());
         return responseCommentOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -48,7 +51,7 @@ public class CommentController {
     @PatchMapping("{adId}/comments/{commentsId}")
     public ResponseEntity<ResponseComment> patchAdComment(@PathVariable("adId") Long adId,
                                                  @PathVariable("commentsId") Long commentId,
-                                                 @RequestBody String updatedComment) {
+                                                 @RequestBody CommentString updatedComment) {
 
         Optional<ResponseComment> responseCommentOptional = commentService.updateComment(adId, commentId, updatedComment);
         return responseCommentOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());

@@ -1,6 +1,7 @@
 package ru.skypro.homework.component;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -31,6 +32,6 @@ public class ImageProcessor {
     }
 
     public static String getExtension(String originalFilename) {
-        return originalFilename.substring(originalFilename.lastIndexOf('.')+1);
+        return StringUtils.getFilenameExtension(originalFilename);
     }
 }

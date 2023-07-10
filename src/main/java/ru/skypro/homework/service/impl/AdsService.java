@@ -35,16 +35,18 @@ public class AdsService {
 
     public ResponseWrapperAds getMyAds(String login){
         Optional<User> userOptional = userService.getUserByLogin(login);
-        if(userOptional.isEmpty())
+        if(userOptional.isEmpty()) {
             return new ResponseWrapperAds(0, new ArrayList<>());
+        }
         List<Ad> adsList = userOptional.get().getUserAds();
         return new ResponseWrapperAds(adsList.size(),adsList);
     }
 
     public ResponseAd createOrUpdateAd(String login, MultipartFile image, CreateOrUpdateAds createOrUpdateAds) {
         Optional<User> userOptional = userService.getUserByLogin(login);
-        if (userOptional.isEmpty())
+        if (userOptional.isEmpty()) {
             throw new RuntimeException("User not found!");
+        }
 
         //TODO Check if addUpdate;
 
@@ -64,8 +66,9 @@ public class AdsService {
         Optional<Ad> adOptional = adsRepository.findById(id);
         ResponseFullAd responseFullAd;
         Ad ad;
-        if(adOptional.isEmpty())
+        if(adOptional.isEmpty()) {
             return Optional.empty();
+        }
         else{
             ad = adOptional.get();
             responseFullAd = new ResponseFullAd(ad);
@@ -80,8 +83,9 @@ public class AdsService {
 
     public Optional<ResponseAd> updateAd(Long id, CreateOrUpdateAds updatedAd) {
        Optional<Ad> adOptional = adsRepository.findById(id);
-       if(adOptional.isEmpty())
+       if(adOptional.isEmpty()) {
            return Optional.empty();
+       }
        Ad ad = adOptional.get();
        ad.setTitle(updatedAd.getTitle());
        ad.setPrice(updatedAd.getPrice());
@@ -94,8 +98,9 @@ public class AdsService {
         //TODO What string to return(for now it's path);
 
         Optional<Ad> adOptional = adsRepository.findById(id);
-        if(adOptional.isEmpty())
+        if(adOptional.isEmpty()) {
             return Optional.empty();
+        }
         Image newImage;
         try {
             newImage = imageService.addAdImage(image, id);

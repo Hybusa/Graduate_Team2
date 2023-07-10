@@ -7,12 +7,12 @@ import ru.skypro.homework.model.User;
 @Data
 @RequiredArgsConstructor
 public class UserGet {
-    Long id;
-    String email;
-    String firstName;
-    String lastName;
-    String phone;
-    String image;
+    private Long id;
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private String image;
 
     public UserGet(User user) {
         this.id = user.getId();
@@ -20,9 +20,11 @@ public class UserGet {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.phone = user.getPhone();
-        if(user.getImage()!=null)
+        if(user.getImage()!=null) {
             this.image = "\\" + user.getImage().getFilePath();
-        else
+        }
+        else {
             this.image = null;
+        }
     }
 }

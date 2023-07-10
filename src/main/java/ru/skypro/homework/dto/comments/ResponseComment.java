@@ -6,11 +6,11 @@ import ru.skypro.homework.model.Image;
 
 @Data
 public class ResponseComment {
-    String authorImage;
-    String authorFirstName;
-    Long createdAt;
-    Long pk;
-    String text;
+    private String authorImage;
+    private String authorFirstName;
+    private Long createdAt;
+    private Long pk;
+    private String text;
 
     public ResponseComment(Comment comment) {
         Image image = comment.getUser().getImage();

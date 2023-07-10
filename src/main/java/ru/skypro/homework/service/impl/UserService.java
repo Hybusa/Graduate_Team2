@@ -42,7 +42,7 @@ public class UserService {
                 .forEach(u -> result.add(org.springframework.security.core.userdetails.User.builder()
                                 .username(u.getEmail())
                                 .password(u.getPassword())
-                                .roles("USER")
+                                .roles(Role.USER.name())
                                 .build()
                         )
                 );
@@ -51,8 +51,9 @@ public class UserService {
 
     public Optional<UserUpdate> updateUserInfo(UserUpdate userUpdate, String login) {
         Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(login);
-        if (optionalUser.isEmpty())
+        if (optionalUser.isEmpty()) {
             return Optional.empty();
+        }
 
         User user = optionalUser.get();
         user.setFirstName(userUpdate.getFirstName().toUpperCase());
@@ -72,8 +73,9 @@ public class UserService {
 
     public Optional<User> updatePassword(String login, String newPassword) {
         Optional<User> userOptional = userRepository.findByEmailIgnoreCase(login);
-        if (userOptional.isEmpty())
+        if (userOptional.isEmpty()) {
             return Optional.empty();
+        }
 
         User user = userOptional.get();
         user.setPassword(newPassword);

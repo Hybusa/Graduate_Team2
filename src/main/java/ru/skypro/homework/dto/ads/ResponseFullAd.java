@@ -5,15 +5,15 @@ import ru.skypro.homework.model.Ad;
 
 @Data
 public class ResponseFullAd {
-    Long pk;
-    String authorFirstName;
-    String authorLastName;
-    String description;
-    String email;
-    String image;
-    String phone;
-    int price;
-    String title;
+    private Long pk;
+    private String authorFirstName;
+    private String authorLastName;
+    private String description;
+    private String email;
+    private String image;
+    private String phone;
+    private int price;
+    private String title;
 
     public ResponseFullAd(){}
     public ResponseFullAd(Ad ad){

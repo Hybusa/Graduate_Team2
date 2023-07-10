@@ -49,7 +49,7 @@ public class AdsController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> removeAd(@PathVariable("id") Long id) {
+    public ResponseEntity<?> removeAd(@PathVariable("id") Long id) {
         if(adsService.deleteAdById(id))
             return ResponseEntity.noContent().build();
         return ResponseEntity.notFound().build();
@@ -68,9 +68,10 @@ public class AdsController {
         return ResponseEntity.ok(responseWrapperAds);
     }
 
-    @PatchMapping("{id}/image")
+
+    @PatchMapping(value ="{id}/image",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateAdImage(@PathVariable("id") Long id,
-                                                  @RequestBody MultipartFile image) {
+                                                  @RequestPart MultipartFile image) {
         Optional<String> responseStringOptional = adsService.updateAdImage(id,image);
         if(responseStringOptional.isEmpty())
             return ResponseEntity.notFound().build();

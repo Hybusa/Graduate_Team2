@@ -32,11 +32,13 @@ public class ImageService {
 
     public boolean updateUserAvatar(MultipartFile image, String login) throws IOException {
         Optional<User> userOptional = userService.getUserByLogin(login);
-        if (userOptional.isEmpty())
+        if (userOptional.isEmpty()) {
             return false;
+        }
         User user = userOptional.get();
-        if (image == null ||image.getOriginalFilename()==null)
+        if (image == null ||image.getOriginalFilename()==null) {
             return false;
+        }
 
         String fileName = image.getOriginalFilename();
 
@@ -51,8 +53,9 @@ public class ImageService {
     }
     public Image addAdImage(MultipartFile image, long adId) throws IOException {
 
-        if (image == null ||image.getOriginalFilename()==null)
+        if (image == null ||image.getOriginalFilename()==null) {
             throw new InputMismatchException();
+        }
 
         String fileName = image.getOriginalFilename();
 
@@ -75,10 +78,12 @@ public class ImageService {
             bis.transferTo(bos);
         }
         Image newImage;
-        if(imageRepository.existsByFilePath(filepath.toString()))
+        if(imageRepository.existsByFilePath(filepath.toString())) {
             newImage = imageRepository.findByFilePath(filepath.toString());
-        else
+        }
+        else {
             newImage = new Image();
+        }
 
         newImage.setFilePath(filepath.toString());
         newImage.setFileSize(image.getSize());

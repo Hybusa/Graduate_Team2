@@ -3,9 +3,9 @@ package ru.skypro.homework.dto.users;
 import ru.skypro.homework.model.User;
 
 public class UserUpdate {
-    String firstName;
-    String lastName;
-    String phone;
+    private String firstName;
+    private String lastName;
+    private String phone;
 
     public UserUpdate(String firstName, String lastName, String phone) {
         this.firstName = firstName;

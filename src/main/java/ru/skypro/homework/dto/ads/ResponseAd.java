@@ -6,11 +6,11 @@ import ru.skypro.homework.model.Ad;
 @Data
 public class ResponseAd {
 
-    Long author;
-    String image;
-    Long pk;
-    int price;
-    String title;
+    private Long author;
+    private String image;
+    private Long pk;
+    private int price;
+    private String title;
 
     public ResponseAd(Ad ad){
         this.author = ad.getAuthor().getId();

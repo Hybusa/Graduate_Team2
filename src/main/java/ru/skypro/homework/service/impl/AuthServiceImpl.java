@@ -54,12 +54,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean changeUserPassword(String login, NewPassword newPassword) {
-        if (!encoder.matches(newPassword.getCurrentPassword(), manager.loadUserByUsername(login).getPassword()))
+        if (!encoder.matches(newPassword.getCurrentPassword(), manager.loadUserByUsername(login).getPassword())) {
             return false;
+        }
         Optional<ru.skypro.homework.model.User> userOptional = userService
                 .updatePassword(login, this.encoder.encode(newPassword.getNewPassword()));
-        if (userOptional.isEmpty())
+        if (userOptional.isEmpty()) {
             return false;
+        }
 
         String role = userOptional.get().getRole();
         manager.updateUser(User.builder()

@@ -5,5 +5,5 @@ import lombok.Data;
 
 @Data
 public class CommentString {
-    String text;
+    private String text;
 }
