@@ -36,10 +36,10 @@ public class AdsService {
     public ResponseWrapperAds getMyAds(String login){
         Optional<User> userOptional = userService.getUserByLogin(login);
         if(userOptional.isEmpty()) {
-            return new ResponseWrapperAds(0, new ArrayList<>());
+            return new ResponseWrapperAds(new ArrayList<>());
         }
         List<Ad> adsList = userOptional.get().getUserAds();
-        return new ResponseWrapperAds(adsList.size(),adsList);
+        return new ResponseWrapperAds(adsList);
     }
 
     public ResponseAd createOrUpdateAd(String login, MultipartFile image, CreateOrUpdateAds createOrUpdateAds) {
@@ -48,7 +48,7 @@ public class AdsService {
             throw new RuntimeException("User not found!");
         }
 
-        //TODO Check if addUpdate;
+        //TODO Check if adUpdate;
 
         Ad newAd = adsRepository.save(new Ad(userOptional.get(), createOrUpdateAds));
 

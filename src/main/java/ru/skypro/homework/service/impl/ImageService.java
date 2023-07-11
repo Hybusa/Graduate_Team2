@@ -2,12 +2,15 @@ package ru.skypro.homework.service.impl;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.component.ImageProcessor;
 import ru.skypro.homework.model.Image;
 import ru.skypro.homework.model.User;
 import ru.skypro.homework.repository.ImageRepository;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -91,5 +94,33 @@ public class ImageService {
         newImage.setMediaType(image.getContentType());
         newImage.setPreview(ImageProcessor.generateImagePreview(filepath));
         return newImage;
+    }
+
+    public byte[] getImageBytes(String imageName)  {
+        String path = imageDir+ "/" + imageName;
+        BufferedImage bufferedImage;
+        byte[] result;
+        try {
+            bufferedImage = ImageIO.read(new File(path));
+            result = toByteArray(bufferedImage, StringUtils.getFilenameExtension(imageName));
+        }catch (IOException e){
+            throw new RuntimeException("Image Exception, " + e.getMessage());
+        }
+
+        return result;
+    }
+
+    public static byte[] toByteArray(BufferedImage bi, String format)
+            throws IOException {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(bi, format, baos);
+        return baos.toByteArray();
+
+    }
+
+
+    public byte[] getImageBytesFromImage(Image image) {
+        return getImageBytes(image.getFilePath());
     }
 }

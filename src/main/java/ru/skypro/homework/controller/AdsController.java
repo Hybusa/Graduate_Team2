@@ -65,13 +65,12 @@ public class AdsController {
 
     @GetMapping("me")
     public ResponseEntity<ResponseWrapperAds> getMyAds(){
+
         ResponseWrapperAds responseWrapperAds =
-                adsService.getMyAds(
-                        SecurityContextHolder
-                                .getContext()
-                                .getAuthentication()
-                                .getName()
-                );
+                adsService.getMyAds(SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getName());
         return ResponseEntity.ok(responseWrapperAds);
     }
 
