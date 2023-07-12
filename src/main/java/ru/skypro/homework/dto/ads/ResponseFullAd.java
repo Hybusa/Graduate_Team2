@@ -22,7 +22,7 @@ public class ResponseFullAd {
         this.description = ad.getDescription();
         this.email = ad.getAuthor().getEmail();
         //TODO Complete directory methods
-        this.image = "\\" + ad.getImage().getFilePath();
+        this.image = null; //"\\" + ad.getImage().getFilePath();
         this.phone = ad.getAuthor().getPhone();
         this.price = ad.getPrice();
         this.title = ad.getTitle();
