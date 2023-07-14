@@ -16,7 +16,7 @@ public class ImageController {
     }
 
 
-    @RequestMapping(value = "/images/{imageName}", method = {RequestMethod.OPTIONS,RequestMethod.GET})
+    @GetMapping(value = "/images/{imageName}")
     public byte[] getImage(@PathVariable String imageName){
         return imageService.getImageBytes(imageName);
     }

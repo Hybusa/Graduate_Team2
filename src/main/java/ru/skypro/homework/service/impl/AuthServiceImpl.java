@@ -63,12 +63,12 @@ public class AuthServiceImpl implements AuthService {
             return false;
         }
 
-        String role = userOptional.get().getRole();
+        Role role = userOptional.get().getRole();
         manager.updateUser(User.builder()
                 .passwordEncoder(this.encoder::encode)
                 .password(newPassword.getNewPassword())
                 .username(login)
-                .roles(role)
+                .roles(role.name())
                 .build());
         return true;
     }

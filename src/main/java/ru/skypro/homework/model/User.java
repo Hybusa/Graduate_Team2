@@ -27,7 +27,8 @@ public class User {
     @JoinColumn(name = "image_id")
     private Image image;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(
             mappedBy = "author",
@@ -39,7 +40,7 @@ public class User {
     private List<Ad> userAds;
 
     public User(String email, String firstName, String lastName, String password, String phone,
-                LocalDate regDate, Image image, String role) {
+                LocalDate regDate, Image image, Role role) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;

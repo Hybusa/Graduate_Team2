@@ -34,7 +34,7 @@ public class UserService {
                         registerReq.getPhone(),
                         LocalDate.now(),
                         null,
-                        role.name()));
+                        role));
     }
 
     public List<UserDetails> getUserDetails() {
