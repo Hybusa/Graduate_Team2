@@ -6,7 +6,6 @@ import ru.skypro.homework.dto.authentication.RegisterReq;
 import ru.skypro.homework.dto.users.UserGet;
 import ru.skypro.homework.dto.users.UserUpdate;
 import ru.skypro.homework.mapper.UsersMapper;
-import ru.skypro.homework.model.Image;
 import ru.skypro.homework.model.Role;
 import ru.skypro.homework.model.User;
 import ru.skypro.homework.repository.UserRepository;
@@ -63,10 +62,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-//    public boolean checkOldPassword(String login, String currentPassword) {
-//        return getUserByLogin(login).getPassword().equals(currentPassword);
-//    }
-
     public Optional<User> updatePassword(String login, String newPassword) {
         Optional<User> userOptional = userRepository.findByEmailIgnoreCase(login);
         if (userOptional.isEmpty()) {
@@ -76,11 +71,6 @@ public class UserService {
         User user = userOptional.get();
         user.setPassword(newPassword);
         return Optional.of(userRepository.save(user));
-    }
-
-    public Optional<Image> getUserImage(String login) {
-        Optional<User> userOptional = userRepository.findByEmailIgnoreCase(login);
-        return userOptional.map(User::getImage);
     }
 
     public Optional<UserGet> getUserDtoByLogin(String login){
