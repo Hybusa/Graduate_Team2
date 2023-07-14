@@ -9,11 +9,6 @@ public class CreateOrUpdateAds {
     public CreateOrUpdateAds() {
     }
 
-    public CreateOrUpdateAds(String description, int price, String title) {
-        this.description = description;
-        this.price = price;
-        this.title = title;
-    }
 
     public String getDescription() {
         return description;

@@ -3,6 +3,7 @@ package ru.skypro.homework.service.impl;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.comments.CommentString;
 import ru.skypro.homework.dto.comments.ResponseComment;
+import ru.skypro.homework.mapper.CommentsMapper;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.Comment;
 import ru.skypro.homework.model.User;
@@ -43,14 +44,14 @@ public class CommentService {
         comment.setCreatedAt(System.currentTimeMillis());
         comment.setText(commentString.getText());
 
-        return Optional.of(new ResponseComment(commentsRepository.save(comment)));
+        return Optional.of(CommentsMapper.CommentToResponseComment(commentsRepository.save(comment)));
     }
 
     public List<ResponseComment> getAllAdComments(Long id) {
         List<ResponseComment> responseCommentList = new ArrayList<>();
         List<Comment> commentList = commentsRepository.findAllByAdId(id);
         for (Comment comment : commentList) {
-            responseCommentList.add(new ResponseComment(comment));
+            responseCommentList.add(CommentsMapper.CommentToResponseComment(comment));
         }
         return responseCommentList;
     }
@@ -70,6 +71,6 @@ public class CommentService {
         }
         Comment comment = commentOptional.get();
         comment.setText(updatedComment.getText());
-       return Optional.of(new ResponseComment(commentsRepository.save(comment)));
+       return Optional.of(CommentsMapper.CommentToResponseComment(commentsRepository.save(comment)));
     }
 }

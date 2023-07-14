@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.authentication.RegisterReq;
 import ru.skypro.homework.dto.users.UserGet;
 import ru.skypro.homework.dto.users.UserUpdate;
+import ru.skypro.homework.mapper.UsersMapper;
 import ru.skypro.homework.model.Image;
 import ru.skypro.homework.model.Role;
 import ru.skypro.homework.model.User;
@@ -51,16 +52,11 @@ public class UserService {
 
     public Optional<UserUpdate> updateUserInfo(UserUpdate userUpdate, String login) {
         Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(login);
-        if (optionalUser.isEmpty()) {
-            return Optional.empty();
-        }
-
-        User user = optionalUser.get();
-        user.setFirstName(userUpdate.getFirstName().toUpperCase());
-        user.setLastName(userUpdate.getLastName().toUpperCase());
-        user.setPhone(userUpdate.getPhone());
-        user = userRepository.save(user);
-        return Optional.of(new UserUpdate(user));
+        return optionalUser.map(
+                user -> UsersMapper.userToUpdateUser(
+                        userRepository.save(UsersMapper.userUpdateToUser(user, userUpdate))
+                )
+        );
     }
 
     public void updateUserImage(User user){
@@ -89,7 +85,7 @@ public class UserService {
 
     public Optional<UserGet> getUserDtoByLogin(String login){
        Optional<User> userOptional =  userRepository.findByEmailIgnoreCase(login);
-        return userOptional.map(UserGet::new);
+        return userOptional.map(UsersMapper::userToUserGet);
     }
     public Optional<User> getUserByLogin(String login) {
         return userRepository.findByEmailIgnoreCase(login);

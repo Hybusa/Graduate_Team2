@@ -15,16 +15,23 @@ public class ResponseFullAd {
     private int price;
     private String title;
 
-    public ResponseFullAd(Ad ad) {
-        this.pk = ad.getId();
-        this.authorFirstName = ad.getAuthor().getFirstName();
-        this.authorLastName = ad.getAuthor().getLastName();
-        this.description = ad.getDescription();
-        this.email = ad.getAuthor().getEmail();
-        //TODO Complete directory methods
-        this.image = null; //"\\" + ad.getImage().getFilePath();
-        this.phone = ad.getAuthor().getPhone();
-        this.price = ad.getPrice();
-        this.title = ad.getTitle();
+    public ResponseFullAd(Long pk,
+                          String authorFirstName,
+                          String authorLastName,
+                          String description,
+                          String email,
+                          String image,
+                          String phone,
+                          int price,
+                          String title) {
+        this.pk = pk;
+        this.authorFirstName = authorFirstName;
+        this.authorLastName = authorLastName;
+        this.description = description;
+        this.email = email;
+        this.image = image;
+        this.phone = phone;
+        this.price = price;
+        this.title = title;
     }
 }

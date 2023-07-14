@@ -6,6 +6,7 @@ import ru.skypro.homework.dto.ads.CreateOrUpdateAds;
 import ru.skypro.homework.dto.ads.ResponseAd;
 import ru.skypro.homework.dto.ads.ResponseFullAd;
 import ru.skypro.homework.dto.ads.ResponseWrapperAds;
+import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.Image;
 import ru.skypro.homework.model.User;
@@ -38,8 +39,7 @@ public class AdsService {
         if(userOptional.isEmpty()) {
             return new ResponseWrapperAds(new ArrayList<>());
         }
-        List<Ad> adsList = userOptional.get().getUserAds();
-        return new ResponseWrapperAds(adsList);
+        return AdsMapper.AdsToResponseWrapperAds(userOptional.get().getUserAds());
     }
 
     public ResponseAd createOrUpdateAd(String login, MultipartFile image, CreateOrUpdateAds createOrUpdateAds) {
@@ -59,22 +59,12 @@ public class AdsService {
             throw new RuntimeException(e);
         }
         newAd.setImage(savedImage);
-        return new ResponseAd(adsRepository.save(newAd));
+        return AdsMapper.AdToResponseAd(adsRepository.save(newAd));
     }
 
     public Optional<ResponseFullAd> getResponseFullAd(Long id){
         Optional<Ad> adOptional = adsRepository.findById(id);
-        ResponseFullAd responseFullAd;
-        Ad ad;
-        if(adOptional.isEmpty()) {
-            return Optional.empty();
-        }
-        else{
-            ad = adOptional.get();
-            responseFullAd = new ResponseFullAd(ad);
-        }
-        return Optional.of(responseFullAd);
-
+        return adOptional.map(AdsMapper::AdToResponseFullAd);
     }
 
     public boolean deleteAdById(Long id) {
@@ -83,15 +73,11 @@ public class AdsService {
 
     public Optional<ResponseAd> updateAd(Long id, CreateOrUpdateAds updatedAd) {
        Optional<Ad> adOptional = adsRepository.findById(id);
-       if(adOptional.isEmpty()) {
-           return Optional.empty();
-       }
-       Ad ad = adOptional.get();
-       ad.setTitle(updatedAd.getTitle());
-       ad.setPrice(updatedAd.getPrice());
-       ad.setDescription(updatedAd.getDescription());
-
-       return Optional.of(new ResponseAd(adsRepository.save(ad)));
+        return adOptional.map(ad -> AdsMapper.AdToResponseAd(
+                adsRepository.save(
+                        AdsMapper.CreateOrUpdateAdsToAd(ad, updatedAd)
+                )
+        ));
     }
 
     public Optional<String> updateAdImage(Long id, MultipartFile image) {
