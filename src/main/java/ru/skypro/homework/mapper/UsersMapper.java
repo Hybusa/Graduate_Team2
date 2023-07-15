@@ -12,7 +12,8 @@ public class UsersMapper {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getPhone(),
-                user.getImage() != null? ("\\" + user.getImage().getFilePath()):null
+                user.getRole(),
+                user.getImage() != null? ("/images/" + user.getImage().getFileName()):null
         );
     }
 

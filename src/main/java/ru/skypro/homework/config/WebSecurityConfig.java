@@ -39,16 +39,6 @@ public class WebSecurityConfig {
         return new InMemoryUserDetailsManager(userService.getUserDetails());
     }
 
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("https://localhost:3000"));
-//        configuration.setAllowedMethods(Arrays.asList("GET","POST","DELETE","OPTIONS"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         logger.info("Processing: " + http.toString());

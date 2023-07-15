@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.skypro.homework.model.Image;
 @Repository
 public interface ImageRepository extends JpaRepository<Image,Long> {
-    boolean existsByFilePath(String filepath);
-    Image findByFilePath(String filepath);
+    boolean existsByFileName(String name);
+    Image findByFileName(String filepath);
+
 }

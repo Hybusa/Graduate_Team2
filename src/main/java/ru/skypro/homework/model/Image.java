@@ -11,11 +11,6 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String filePath;
-    private long fileSize;
+    private String fileName;
     private String mediaType;
-    private byte[] data;
-    private byte[] preview;
-
 }

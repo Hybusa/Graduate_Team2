@@ -26,9 +26,9 @@ public class UserService {
     public void registerUser(RegisterReq registerReq, String encodedPassword, Role role) {
         userRepository.save(
                 new User(
-                        registerReq.getUsername().toUpperCase(),
-                        registerReq.getFirstName().toUpperCase(),
-                        registerReq.getLastName().toUpperCase(),
+                        registerReq.getUsername(),
+                        registerReq.getFirstName(),
+                        registerReq.getLastName(),
                         encodedPassword,
                         registerReq.getPhone(),
                         LocalDate.now(),

@@ -8,16 +8,17 @@ import ru.skypro.homework.model.Image;
 import java.util.List;
 
 public class CommentsMapper {
-    public static ResponseComment CommentToResponseComment(Comment comment){
+    public static ResponseComment commentToResponseComment(Comment comment){
         Image image = comment.getUser().getImage();
         return new ResponseComment(
-                image == null? null: ("\\" + image.getFilePath()),
+                comment.getUser().getId(),
+                image == null? null: ("/images/" + image.getFileName()),
                 comment.getUser().getFirstName(),comment.getCreatedAt(),
                 comment.getId(),
                 comment.getText());
     }
 
-    public static ResponseWrapperComments CommentsToResponseWrapperComments(List<ResponseComment> commentList){
+    public static ResponseWrapperComments commentsToResponseWrapperComments(List<ResponseComment> commentList){
         return new ResponseWrapperComments(commentList.size(), commentList);
     }
 

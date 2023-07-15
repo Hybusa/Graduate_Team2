@@ -44,11 +44,12 @@ public class ImageService {
         }
 
         String fileName = image.getOriginalFilename();
+        String newFileName = login.hashCode()
+                + "." +ImageProcessor.getExtension(fileName);
 
-        Path filepath = Path.of(imageDir, login.hashCode()
-                + "." +ImageProcessor.getExtension(fileName));
+        Path filepath = Path.of(imageDir, newFileName);
 
-        Image newImage = processImage(image, filepath);
+        Image newImage = processImage(image, filepath, newFileName);
 
         user.setImage(imageRepository.save(newImage));
         userService.updateUserImage(user);
@@ -62,15 +63,15 @@ public class ImageService {
         }
 
         String fileName = image.getOriginalFilename();
+        String newFileName = "ad_"+adId + "." +ImageProcessor.getExtension(fileName);
 
-        Path filepath = Path.of(imageDir, "ad_"+adId
-                + "." +ImageProcessor.getExtension(fileName));
+        Path filepath = Path.of(imageDir, newFileName);
 
-        Image newImage = processImage(image, filepath);
+        Image newImage = processImage(image, filepath,newFileName);
         return imageRepository.save(newImage);
     }
 
-    private Image processImage(MultipartFile image, Path filepath) throws IOException {
+    private Image processImage(MultipartFile image, Path filepath,String filename) throws IOException {
         Files.createDirectories(filepath.getParent());
         Files.deleteIfExists(filepath);
 
@@ -82,22 +83,20 @@ public class ImageService {
             bis.transferTo(bos);
         }
         Image newImage;
-        if(imageRepository.existsByFilePath(filepath.toString())) {
-            newImage = imageRepository.findByFilePath(filepath.toString());
+        if(imageRepository.existsByFileName(filename)) {
+            newImage = imageRepository.findByFileName(filename);
         }
         else {
             newImage = new Image();
         }
 
-        newImage.setFilePath(filepath.toString());
-        newImage.setFileSize(image.getSize());
+        newImage.setFileName(filename);
         newImage.setMediaType(image.getContentType());
-        newImage.setPreview(ImageProcessor.generateImagePreview(filepath));
         return newImage;
     }
 
     public byte[] getImageBytes(String imageName)  {
-        String path = imageDir+ "/" + imageName;
+        String path = imageDir + "/" + imageName;
         BufferedImage bufferedImage;
         byte[] result;
         try {
@@ -119,8 +118,4 @@ public class ImageService {
 
     }
 
-
-    public byte[] getImageBytesFromImage(Image image) {
-        return getImageBytes(image.getFilePath());
-    }
 }

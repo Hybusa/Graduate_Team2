@@ -21,10 +21,10 @@ import java.util.Optional;
 @CrossOrigin(value = "http://localhost:3000")
 public class AdsController {
 
-    private final AdsService adsService;
+private final AdsService adsService;
+    public AdsController(AdsService adsService1) {
 
-    public AdsController(AdsService adsService) {
-        this.adsService = adsService;
+        this.adsService = adsService1;
     }
 
     @GetMapping

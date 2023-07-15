@@ -19,7 +19,7 @@ public class ResponseWrapperAds {
         this.count = ads.size();
         List<ResponseAd> responseAds= new ArrayList<>();
         for (Ad ad : ads) {
-            responseAds.add(AdsMapper.AdToResponseAd(ad));
+            responseAds.add(AdsMapper.adToResponseAd(ad));
         }
         Collections.shuffle(responseAds);
         this.results = responseAds;

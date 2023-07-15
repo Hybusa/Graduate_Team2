@@ -14,18 +14,19 @@ import ru.skypro.homework.repository.AdsRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AdsService {
     private final UserService userService;
     private final AdsRepository adsRepository;
+
     private final ImageService imageService;
 
     public AdsService(UserService userService, AdsRepository adsRepository, ImageService imageService) {
         this.userService = userService;
         this.adsRepository = adsRepository;
+
         this.imageService = imageService;
     }
 
@@ -39,7 +40,7 @@ public class AdsService {
         if(userOptional.isEmpty()) {
             return new ResponseWrapperAds(new ArrayList<>());
         }
-        return AdsMapper.AdsToResponseWrapperAds(userOptional.get().getUserAds());
+        return AdsMapper.adsToResponseWrapperAds(userOptional.get().getUserAds());
     }
 
     public ResponseAd createOrUpdateAd(String login, MultipartFile image, CreateOrUpdateAds createOrUpdateAds) {
@@ -59,12 +60,12 @@ public class AdsService {
             throw new RuntimeException(e);
         }
         newAd.setImage(savedImage);
-        return AdsMapper.AdToResponseAd(adsRepository.save(newAd));
+        return AdsMapper.adToResponseAd(adsRepository.save(newAd));
     }
 
     public Optional<ResponseFullAd> getResponseFullAd(Long id){
         Optional<Ad> adOptional = adsRepository.findById(id);
-        return adOptional.map(AdsMapper::AdToResponseFullAd);
+        return adOptional.map(AdsMapper::adToResponseFullAd);
     }
 
     public boolean deleteAdById(Long id) {
@@ -73,9 +74,9 @@ public class AdsService {
 
     public Optional<ResponseAd> updateAd(Long id, CreateOrUpdateAds updatedAd) {
        Optional<Ad> adOptional = adsRepository.findById(id);
-        return adOptional.map(ad -> AdsMapper.AdToResponseAd(
+        return adOptional.map(ad -> AdsMapper.adToResponseAd(
                 adsRepository.save(
-                        AdsMapper.CreateOrUpdateAdsToAd(ad, updatedAd)
+                        AdsMapper.createOrUpdateAdsToAd(ad, updatedAd)
                 )
         ));
     }
@@ -93,6 +94,6 @@ public class AdsService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return Optional.of("\\" + newImage.getFilePath());
+        return Optional.of("/images/" + newImage.getFileName());
     }
 }

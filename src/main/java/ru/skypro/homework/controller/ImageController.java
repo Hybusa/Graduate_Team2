@@ -1,7 +1,6 @@
 package ru.skypro.homework.controller;
 
 import org.springframework.web.bind.annotation.*;
-import ru.skypro.homework.model.Image;
 import ru.skypro.homework.service.impl.ImageService;
 
 @RestController
@@ -21,8 +20,8 @@ public class ImageController {
         return imageService.getImageBytes(imageName);
     }
 
-    @GetMapping("{image}")
-    public byte[] getImage(@PathVariable Image image){
-        return imageService.getImageBytesFromImage(image);
-    }
+//    @GetMapping("{image}")
+//    public byte[] getImage(@PathVariable Image image){
+//        return imageService.getImageBytesFromImage(image);
+//    }
 }

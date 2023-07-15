@@ -5,11 +5,8 @@
 CREATE TABLE images
 (
     id         BIGSERIAL PRIMARY KEY,
-    data       BYTEA,
-    file_path  VARCHAR(255),
-    file_size  BIGINT NOT NULL,
-    media_type VARCHAR(255),
-    preview    BYTEA
+    file_name  VARCHAR(255),
+    media_type VARCHAR(255)
 );
 
 CREATE TABLE users

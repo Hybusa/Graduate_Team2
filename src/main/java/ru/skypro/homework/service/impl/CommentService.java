@@ -44,14 +44,14 @@ public class CommentService {
         comment.setCreatedAt(System.currentTimeMillis());
         comment.setText(commentString.getText());
 
-        return Optional.of(CommentsMapper.CommentToResponseComment(commentsRepository.save(comment)));
+        return Optional.of(CommentsMapper.commentToResponseComment(commentsRepository.save(comment)));
     }
 
     public List<ResponseComment> getAllAdComments(Long id) {
         List<ResponseComment> responseCommentList = new ArrayList<>();
         List<Comment> commentList = commentsRepository.findAllByAdId(id);
         for (Comment comment : commentList) {
-            responseCommentList.add(CommentsMapper.CommentToResponseComment(comment));
+            responseCommentList.add(CommentsMapper.commentToResponseComment(comment));
         }
         return responseCommentList;
     }
@@ -71,6 +71,6 @@ public class CommentService {
         }
         Comment comment = commentOptional.get();
         comment.setText(updatedComment.getText());
-       return Optional.of(CommentsMapper.CommentToResponseComment(commentsRepository.save(comment)));
+       return Optional.of(CommentsMapper.commentToResponseComment(commentsRepository.save(comment)));
     }
 }

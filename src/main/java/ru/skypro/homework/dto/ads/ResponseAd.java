@@ -2,7 +2,6 @@
 package ru.skypro.homework.dto.ads;
 
 import lombok.Data;
-import ru.skypro.homework.model.Ad;
 @Data
 public class ResponseAd {
 
