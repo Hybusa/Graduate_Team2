@@ -6,7 +6,7 @@ import ru.skypro.homework.dto.ads.CreateOrUpdateAds;
 import ru.skypro.homework.dto.ads.ResponseAd;
 import ru.skypro.homework.dto.ads.ResponseFullAd;
 import ru.skypro.homework.dto.ads.ResponseWrapperAds;
-import ru.skypro.homework.mapper.AdsMapper;
+import ru.skypro.homework.mapper.mapStruct.AdsMapperMapStruct;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.Image;
 import ru.skypro.homework.model.User;
@@ -23,24 +23,30 @@ public class AdsService {
 
     private final ImageService imageService;
 
-    public AdsService(UserService userService, AdsRepository adsRepository, ImageService imageService) {
+    private final AdsMapperMapStruct adsMapperMapStruct;
+
+    public AdsService(UserService userService,
+                      AdsRepository adsRepository,
+                      ImageService imageService,
+                      AdsMapperMapStruct adsMapperMapStruct) {
         this.userService = userService;
         this.adsRepository = adsRepository;
 
         this.imageService = imageService;
+        this.adsMapperMapStruct = adsMapperMapStruct;
     }
 
 
     public ResponseWrapperAds getAllAds(){
-        return new ResponseWrapperAds(adsRepository.findAll());
+        return adsMapperMapStruct.adsToResponseWrapperAds(adsRepository.findAll());
     }
 
     public ResponseWrapperAds getMyAds(String login){
         Optional<User> userOptional = userService.getUserByLogin(login);
         if(userOptional.isEmpty()) {
-            return new ResponseWrapperAds(new ArrayList<>());
+            return adsMapperMapStruct.adsToResponseWrapperAds(new ArrayList<>());
         }
-        return AdsMapper.adsToResponseWrapperAds(userOptional.get().getUserAds());
+        return adsMapperMapStruct.adsToResponseWrapperAds(userOptional.get().getUserAds());
     }
 
     public ResponseAd createOrUpdateAd(String login, MultipartFile image, CreateOrUpdateAds createOrUpdateAds) {
@@ -60,12 +66,12 @@ public class AdsService {
             throw new RuntimeException(e);
         }
         newAd.setImage(savedImage);
-        return AdsMapper.adToResponseAd(adsRepository.save(newAd));
+        return adsMapperMapStruct.adToResponseAd(adsRepository.save(newAd));
     }
 
     public Optional<ResponseFullAd> getResponseFullAd(Long id){
         Optional<Ad> adOptional = adsRepository.findById(id);
-        return adOptional.map(AdsMapper::adToResponseFullAd);
+        return adOptional.map(adsMapperMapStruct::adToResponseFullAd);
     }
 
     public boolean deleteAdById(Long id) {
@@ -74,16 +80,14 @@ public class AdsService {
 
     public Optional<ResponseAd> updateAd(Long id, CreateOrUpdateAds updatedAd) {
        Optional<Ad> adOptional = adsRepository.findById(id);
-        return adOptional.map(ad -> AdsMapper.adToResponseAd(
+        return adOptional.map(ad -> adsMapperMapStruct.adToResponseAd(
                 adsRepository.save(
-                        AdsMapper.createOrUpdateAdsToAd(ad, updatedAd)
+                        adsMapperMapStruct.createOrUpdateAdsToAd(ad, updatedAd)
                 )
         ));
     }
 
     public Optional<String> updateAdImage(Long id, MultipartFile image) {
-        //TODO What string to return(for now it's path);
-
         Optional<Ad> adOptional = adsRepository.findById(id);
         if(adOptional.isEmpty()) {
             return Optional.empty();

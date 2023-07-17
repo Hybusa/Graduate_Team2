@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.dto.comments.CommentString;
 import ru.skypro.homework.dto.comments.ResponseComment;
 import ru.skypro.homework.dto.comments.ResponseWrapperComments;
-import ru.skypro.homework.mapper.CommentsMapper;
 import ru.skypro.homework.service.impl.CommentService;
 
 import java.util.Optional;
@@ -26,7 +25,7 @@ public class CommentController {
 
     @GetMapping("{id}/comments")
     public ResponseEntity<ResponseWrapperComments> getAllUserAds(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(CommentsMapper.commentsToResponseWrapperComments(commentService.getAllAdComments(id)));
+        return ResponseEntity.ok(commentService.getAllAdComments(id));
     }
 
     @PostMapping("{id}/comments")

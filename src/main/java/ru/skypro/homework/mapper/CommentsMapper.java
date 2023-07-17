@@ -13,7 +13,8 @@ public class CommentsMapper {
         return new ResponseComment(
                 comment.getUser().getId(),
                 image == null? null: ("/images/" + image.getFileName()),
-                comment.getUser().getFirstName(),comment.getCreatedAt(),
+                comment.getUser().getFirstName(),
+                comment.getCreatedAt(),
                 comment.getId(),
                 comment.getText());
     }

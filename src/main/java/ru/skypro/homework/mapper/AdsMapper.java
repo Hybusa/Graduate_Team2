@@ -48,7 +48,7 @@ public class AdsMapper {
         results.setCount(ads.size());
         List<ResponseAd> responseAds= new ArrayList<>();
         for (Ad ad : ads) {
-            responseAds.add(AdsMapper.adToResponseAd(ad));
+            responseAds.add(adToResponseAd(ad));
         }
         Collections.shuffle(responseAds);
         results.setResults(responseAds);

@@ -3,7 +3,8 @@ package ru.skypro.homework.service.impl;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.comments.CommentString;
 import ru.skypro.homework.dto.comments.ResponseComment;
-import ru.skypro.homework.mapper.CommentsMapper;
+import ru.skypro.homework.dto.comments.ResponseWrapperComments;
+import ru.skypro.homework.mapper.mapStruct.CommentsMapperMapStruct;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.Comment;
 import ru.skypro.homework.model.User;
@@ -21,11 +22,13 @@ public class CommentService {
     private final AdsRepository adsRepository;
 
     private final UserService userService;
+    private final CommentsMapperMapStruct commentsMapperMapStruct;
 
-    public CommentService(CommentsRepository commentsRepository, AdsRepository adsRepository, UserService userService) {
+    public CommentService(CommentsRepository commentsRepository, AdsRepository adsRepository, UserService userService, CommentsMapperMapStruct commentsMapperMapStruct) {
         this.commentsRepository = commentsRepository;
         this.adsRepository = adsRepository;
         this.userService = userService;
+        this.commentsMapperMapStruct = commentsMapperMapStruct;
     }
 
     public Optional<ResponseComment> createComment(Long id, CommentString commentString, String login){
@@ -44,16 +47,16 @@ public class CommentService {
         comment.setCreatedAt(System.currentTimeMillis());
         comment.setText(commentString.getText());
 
-        return Optional.of(CommentsMapper.commentToResponseComment(commentsRepository.save(comment)));
+        return Optional.of(commentsMapperMapStruct.commentToResponseComment(commentsRepository.save(comment)));
     }
 
-    public List<ResponseComment> getAllAdComments(Long id) {
+    public ResponseWrapperComments getAllAdComments(Long id) {
         List<ResponseComment> responseCommentList = new ArrayList<>();
         List<Comment> commentList = commentsRepository.findAllByAdId(id);
         for (Comment comment : commentList) {
-            responseCommentList.add(CommentsMapper.commentToResponseComment(comment));
+            responseCommentList.add(commentsMapperMapStruct.commentToResponseComment(comment));
         }
-        return responseCommentList;
+        return commentsMapperMapStruct.commentsToResponseWrapperComments(responseCommentList);
     }
 
     public boolean deleteAdComment(Long adId, Long commentId) {
@@ -71,6 +74,6 @@ public class CommentService {
         }
         Comment comment = commentOptional.get();
         comment.setText(updatedComment.getText());
-       return Optional.of(CommentsMapper.commentToResponseComment(commentsRepository.save(comment)));
+       return Optional.of(commentsMapperMapStruct.commentToResponseComment(commentsRepository.save(comment)));
     }
 }

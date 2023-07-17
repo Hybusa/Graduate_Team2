@@ -14,3 +14,5 @@ public class Image {
     private String fileName;
     private String mediaType;
 }
+
+

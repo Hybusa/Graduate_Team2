@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.authentication.RegisterReq;
 import ru.skypro.homework.dto.users.UserGet;
 import ru.skypro.homework.dto.users.UserUpdate;
-import ru.skypro.homework.mapper.UsersMapper;
+import ru.skypro.homework.mapper.mapStruct.UserMapperMapStruct;
 import ru.skypro.homework.model.Role;
 import ru.skypro.homework.model.User;
 import ru.skypro.homework.repository.UserRepository;
@@ -19,8 +19,11 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    private final UserMapperMapStruct userMapperMapStruct;
+
+    public UserService(UserRepository userRepository, UserMapperMapStruct userMapperMapStruct) {
         this.userRepository = userRepository;
+        this.userMapperMapStruct = userMapperMapStruct;
     }
 
     public void registerUser(RegisterReq registerReq, String encodedPassword, Role role) {
@@ -52,8 +55,8 @@ public class UserService {
     public Optional<UserUpdate> updateUserInfo(UserUpdate userUpdate, String login) {
         Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(login);
         return optionalUser.map(
-                user -> UsersMapper.userToUpdateUser(
-                        userRepository.save(UsersMapper.userUpdateToUser(user, userUpdate))
+                user -> userMapperMapStruct.userToUpdateUser(
+                        userRepository.save(userMapperMapStruct.userUpdateToUser(user, userUpdate))
                 )
         );
     }
@@ -75,7 +78,7 @@ public class UserService {
 
     public Optional<UserGet> getUserDtoByLogin(String login){
        Optional<User> userOptional =  userRepository.findByEmailIgnoreCase(login);
-        return userOptional.map(UsersMapper::userToUserGet);
+        return userOptional.map(userMapperMapStruct::userToUserGet);
     }
     public Optional<User> getUserByLogin(String login) {
         return userRepository.findByEmailIgnoreCase(login);
