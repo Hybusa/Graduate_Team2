@@ -62,6 +62,8 @@ public class ImageService {
             throw new InputMismatchException();
         }
 
+        //TODO UPDATE AD IMAGE
+
         String fileName = image.getOriginalFilename();
         String newFileName = "ad_"+adId + "." +ImageProcessor.getExtension(fileName);
 

@@ -20,10 +20,9 @@ import java.util.Optional;
 public class AdsService {
     private final UserService userService;
     private final AdsRepository adsRepository;
-
     private final ImageService imageService;
-
     private final AdsMapperMapStruct adsMapperMapStruct;
+
 
     public AdsService(UserService userService,
                       AdsRepository adsRepository,
@@ -54,8 +53,6 @@ public class AdsService {
         if (userOptional.isEmpty()) {
             throw new RuntimeException("User not found!");
         }
-
-        //TODO Check if adUpdate;
 
         Ad newAd = adsRepository.save(new Ad(userOptional.get(), createOrUpdateAds));
 
@@ -98,6 +95,6 @@ public class AdsService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return Optional.of("/images/" + newImage.getFileName());
+        return Optional.of(newImage.getFileName());
     }
 }

@@ -13,7 +13,9 @@ import java.util.List;
 public interface CommentsMapperMapStruct {
 
     @Mapping(source = "user.id", target = "author")
-    @Mapping(target = "authorImage", expression  = "java(comment.getUser().getImage() == null? null: (\"/images/\" + comment.getUser().getImage().getFileName()))")
+    @Mapping(target = "authorImage",
+            expression  = "java(comment.getUser().getImage() == null? " +
+                    "null: (\"/images/\" + comment.getUser().getImage().getFileName()))")
     @Mapping(source = "user.firstName", target = "authorFirstName")
     @Mapping(source = "id", target = "pk")
     ResponseComment commentToResponseComment(Comment comment);

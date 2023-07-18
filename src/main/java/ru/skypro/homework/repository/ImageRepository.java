@@ -7,5 +7,4 @@ import ru.skypro.homework.model.Image;
 public interface ImageRepository extends JpaRepository<Image,Long> {
     boolean existsByFileName(String name);
     Image findByFileName(String filepath);
-
 }
