@@ -7,11 +7,10 @@ import ru.skypro.homework.dto.ads.ResponseAd;
 import ru.skypro.homework.dto.ads.ResponseFullAd;
 import ru.skypro.homework.dto.ads.ResponseWrapperAds;
 import ru.skypro.homework.model.Ad;
-import ru.skypro.homework.service.impl.UserService;
 
 import java.util.List;
 
-@Mapper(componentModel="spring", uses = UserService.class)
+@Mapper(componentModel="spring")
 public interface AdsMapperMapStruct {
 
     @Mapping(source = "author.id", target = "author")

@@ -30,7 +30,6 @@ public class AdsService {
                       AdsMapperMapStruct adsMapperMapStruct) {
         this.userService = userService;
         this.adsRepository = adsRepository;
-
         this.imageService = imageService;
         this.adsMapperMapStruct = adsMapperMapStruct;
     }

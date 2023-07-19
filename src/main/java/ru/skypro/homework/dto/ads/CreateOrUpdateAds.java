@@ -9,7 +9,6 @@ public class CreateOrUpdateAds {
     public CreateOrUpdateAds() {
     }
 
-
     public String getDescription() {
         return description;
     }
