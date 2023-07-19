@@ -92,6 +92,9 @@ public class AdsService {
         Image newImage;
         try {
             newImage = imageService.addAdImage(image, id);
+            Ad updatedAd  = adOptional.get();
+            updatedAd.setImage(newImage);
+            adsRepository.save(updatedAd);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

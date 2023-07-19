@@ -69,8 +69,7 @@ public class ImageService {
 
         Path filepath = Path.of(imageDir, newFileName);
 
-        Image newImage = processImage(image, filepath,newFileName);
-        return imageRepository.save(newImage);
+        return imageRepository.save(processImage(image, filepath,newFileName));
     }
 
     private Image processImage(MultipartFile image, Path filepath,String filename) throws IOException {

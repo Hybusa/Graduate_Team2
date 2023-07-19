@@ -11,14 +11,13 @@ import ru.skypro.homework.service.impl.UserService;
 
 import java.util.List;
 
-@Mapper(componentModel="spring", uses= UserService.class)
+@Mapper(componentModel="spring", uses = UserService.class)
 public interface AdsMapperMapStruct {
 
     @Mapping(source = "author.id", target = "author")
     @Mapping(target = "image", expression  = "java(\"/images/\" + ad.getImage().getFileName())")
     @Mapping(source = "id", target = "pk")
     ResponseAd adToResponseAd(Ad ad);
-
 
     @Mapping(expression = "java(results.size())", target = "count")
     default ResponseWrapperAds adsToResponseWrapperAds(List<Ad> results){
