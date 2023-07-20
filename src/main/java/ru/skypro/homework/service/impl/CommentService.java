@@ -17,10 +17,8 @@ import java.util.Optional;
 
 @Service
 public class CommentService {
-
     private final CommentsRepository commentsRepository;
     private final AdsRepository adsRepository;
-
     private final UserService userService;
     private final CommentsMapperMapStruct commentsMapperMapStruct;
 

@@ -20,11 +20,10 @@ import java.util.Optional;
 @RequestMapping("ads")
 @CrossOrigin(value = "http://localhost:3000")
 public class AdsController {
-
 private final AdsService adsService;
-    public AdsController(AdsService adsService1) {
+    public AdsController(AdsService adsService) {
 
-        this.adsService = adsService1;
+        this.adsService = adsService;
     }
 
     @GetMapping
@@ -50,9 +49,23 @@ private final AdsService adsService;
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> removeAd(@PathVariable("id") Long id) {
-        if(adsService.deleteAdById(id)) {
+//        if(SecurityContextHolder.getContext()
+//                .getAuthentication()
+//                .getAuthorities()
+//                .contains(new SimpleGrantedAuthority("ROLE_" + Role.ADMIN.name()) )
+//        ){
+//            if(adsService.deleteAdById(id)){
+//                return ResponseEntity.noContent().build();
+//            }
+//            return ResponseEntity.notFound().build();
+//        }
+
+
+//        if(result == null){
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
+        if(adsService.deleteAdById(id))
             return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.notFound().build();
     }
 
@@ -65,7 +78,6 @@ private final AdsService adsService;
 
     @GetMapping("me")
     public ResponseEntity<ResponseWrapperAds> getMyAds(){
-
         ResponseWrapperAds responseWrapperAds =
                 adsService.getMyAds(SecurityContextHolder
                         .getContext()
@@ -82,7 +94,6 @@ private final AdsService adsService;
         if(responseStringOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok(responseStringOptional.get());
     }
 }
