@@ -15,10 +15,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class WebSecurityConfig {
-
     private final Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
     private final UserService userService;
-
     private static final String[] AUTH_WHITELIST = {
             "/swagger-resources/**",
             "/swagger-ui.html",

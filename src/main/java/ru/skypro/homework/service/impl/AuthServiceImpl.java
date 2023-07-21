@@ -16,9 +16,7 @@ import java.util.Optional;
 public class AuthServiceImpl implements AuthService {
 
     private final UserDetailsManager manager;
-
     private final PasswordEncoder encoder;
-
     private final UserService userService;
 
     public AuthServiceImpl(UserDetailsManager manager, PasswordEncoder passwordEncoder, UserService userService) {
@@ -47,7 +45,8 @@ public class AuthServiceImpl implements AuthService {
                         .password(registerReq.getPassword())
                         .username(registerReq.getUsername())
                         .roles(role.name())
-                        .build());
+                        .build()
+        );
         userService.registerUser(registerReq, this.encoder.encode(registerReq.getPassword()), role);
         return true;
     }
@@ -72,6 +71,4 @@ public class AuthServiceImpl implements AuthService {
                 .build());
         return true;
     }
-
-
 }

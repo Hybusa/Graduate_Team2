@@ -68,28 +68,8 @@ public class AdsService {
         return adOptional.map(adsMapperMapStruct::adToResponseFullAd);
     }
 
-    public Boolean deleteAdById(String login, Long id) {
-        if (!adsRepository.existsById(id)) {
-            return false;
-        }
-        Optional<User> userOptional = userService.getUserByLogin(login);
-        if (userOptional.isEmpty()) {
-            return false;
-        }
-        Optional<Ad> adOptional = adsRepository.findById(id);
-        if (adOptional.isEmpty()) {
-            return false;
-        }
-        if (!adOptional.get().getAuthor().getId().equals(userOptional.get().getId())) {
-            return null;
-        }
-        adsRepository.deleteById(id);
-        return true;
-    }
-
     public boolean deleteAdById(Long id) {
-        Optional<Ad> adOptional = adsRepository.findById(id);
-        if (adOptional.isEmpty()) {
+        if (!adsRepository.existsById(id)) {
             return false;
         }
         adsRepository.deleteById(id);
