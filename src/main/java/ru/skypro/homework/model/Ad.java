@@ -2,6 +2,8 @@ package ru.skypro.homework.model;
 
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.skypro.homework.dto.ads.CreateOrUpdateAds;
 
 import javax.persistence.*;
@@ -12,13 +14,13 @@ import java.util.List;
 @Data
 public class Ad {
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-   // @JsonBackReference
     private User author;
 
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     @JoinColumn(name ="image_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Image image;
 
     @Id
@@ -31,9 +33,8 @@ public class Ad {
 
     private String description;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name= "user_id")
-  //  @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "id", orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude
     private List<Comment> adsComments;
     

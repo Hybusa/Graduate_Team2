@@ -5,11 +5,10 @@ import org.mapstruct.Mapping;
 import ru.skypro.homework.dto.comments.ResponseComment;
 import ru.skypro.homework.dto.comments.ResponseWrapperComments;
 import ru.skypro.homework.model.Comment;
-import ru.skypro.homework.service.impl.CommentService;
 
 import java.util.List;
 
-@Mapper(componentModel="spring", uses= CommentService.class)
+@Mapper(componentModel="spring")
 public interface CommentsMapperMapStruct {
 
     @Mapping(source = "user.id", target = "author")

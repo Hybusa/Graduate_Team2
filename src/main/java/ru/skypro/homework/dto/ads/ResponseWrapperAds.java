@@ -9,5 +9,4 @@ public class ResponseWrapperAds {
 
     public ResponseWrapperAds() {
     }
-
 }

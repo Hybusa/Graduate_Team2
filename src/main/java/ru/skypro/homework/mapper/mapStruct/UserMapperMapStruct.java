@@ -5,9 +5,8 @@ import org.mapstruct.Mapping;
 import ru.skypro.homework.dto.users.UserGet;
 import ru.skypro.homework.dto.users.UserUpdate;
 import ru.skypro.homework.model.User;
-import ru.skypro.homework.service.impl.UserService;
 
-@Mapper(componentModel = "spring", uses = UserService.class)
+@Mapper(componentModel = "spring")
 public interface UserMapperMapStruct {
 
     @Mapping(target = "image", expression = "java(user.getImage() == null? null: (\"/images/\" + user.getImage().getFileName()))")

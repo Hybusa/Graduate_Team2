@@ -23,7 +23,7 @@ public class User {
     private String phone;
     private LocalDate regDate;
 
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "image_id")
     private Image image;
 

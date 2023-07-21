@@ -23,26 +23,23 @@ public class AdsService {
     private final ImageService imageService;
     private final AdsMapperMapStruct adsMapperMapStruct;
 
-
     public AdsService(UserService userService,
                       AdsRepository adsRepository,
                       ImageService imageService,
                       AdsMapperMapStruct adsMapperMapStruct) {
         this.userService = userService;
         this.adsRepository = adsRepository;
-
         this.imageService = imageService;
         this.adsMapperMapStruct = adsMapperMapStruct;
     }
 
-
-    public ResponseWrapperAds getAllAds(){
+    public ResponseWrapperAds getAllAds() {
         return adsMapperMapStruct.adsToResponseWrapperAds(adsRepository.findAll());
     }
 
-    public ResponseWrapperAds getMyAds(String login){
+    public ResponseWrapperAds getMyAds(String login) {
         Optional<User> userOptional = userService.getUserByLogin(login);
-        if(userOptional.isEmpty()) {
+        if (userOptional.isEmpty()) {
             return adsMapperMapStruct.adsToResponseWrapperAds(new ArrayList<>());
         }
         return adsMapperMapStruct.adsToResponseWrapperAds(userOptional.get().getUserAds());
@@ -66,17 +63,41 @@ public class AdsService {
         return adsMapperMapStruct.adToResponseAd(adsRepository.save(newAd));
     }
 
-    public Optional<ResponseFullAd> getResponseFullAd(Long id){
+    public Optional<ResponseFullAd> getResponseFullAd(Long id) {
         Optional<Ad> adOptional = adsRepository.findById(id);
         return adOptional.map(adsMapperMapStruct::adToResponseFullAd);
     }
 
+    public Boolean deleteAdById(String login, Long id) {
+        if (!adsRepository.existsById(id)) {
+            return false;
+        }
+        Optional<User> userOptional = userService.getUserByLogin(login);
+        if (userOptional.isEmpty()) {
+            return false;
+        }
+        Optional<Ad> adOptional = adsRepository.findById(id);
+        if (adOptional.isEmpty()) {
+            return false;
+        }
+        if (!adOptional.get().getAuthor().getId().equals(userOptional.get().getId())) {
+            return null;
+        }
+        adsRepository.deleteById(id);
+        return true;
+    }
+
     public boolean deleteAdById(Long id) {
-        return adsRepository.existsById(id);
+        Optional<Ad> adOptional = adsRepository.findById(id);
+        if (adOptional.isEmpty()) {
+            return false;
+        }
+        adsRepository.deleteById(id);
+        return true;
     }
 
     public Optional<ResponseAd> updateAd(Long id, CreateOrUpdateAds updatedAd) {
-       Optional<Ad> adOptional = adsRepository.findById(id);
+        Optional<Ad> adOptional = adsRepository.findById(id);
         return adOptional.map(ad -> adsMapperMapStruct.adToResponseAd(
                 adsRepository.save(
                         adsMapperMapStruct.createOrUpdateAdsToAd(ad, updatedAd)
@@ -86,12 +107,15 @@ public class AdsService {
 
     public Optional<String> updateAdImage(Long id, MultipartFile image) {
         Optional<Ad> adOptional = adsRepository.findById(id);
-        if(adOptional.isEmpty()) {
+        if (adOptional.isEmpty()) {
             return Optional.empty();
         }
         Image newImage;
         try {
             newImage = imageService.addAdImage(image, id);
+            Ad updatedAd = adOptional.get();
+            updatedAd.setImage(newImage);
+            adsRepository.save(updatedAd);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
