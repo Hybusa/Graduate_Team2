@@ -81,11 +81,10 @@ public class UserController {
     @PatchMapping(value = "me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateUserImage(@RequestPart MultipartFile image) throws IOException {
 
-        if(imageService.updateUserAvatar(image, SecurityContextHolder
+        imageService.updateUserAvatar(image, SecurityContextHolder
                 .getContext()
                 .getAuthentication()
-                .getName()))
-           return ResponseEntity.ok().build();
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                .getName());
+        return ResponseEntity.ok().build();
     }
 }

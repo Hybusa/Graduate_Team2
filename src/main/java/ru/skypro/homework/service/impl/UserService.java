@@ -30,8 +30,8 @@ public class UserService {
         userRepository.save(
                 new User(
                         registerReq.getUsername(),
-                        registerReq.getFirstName(),
-                        registerReq.getLastName(),
+                        registerReq.getFirstName().toUpperCase(),
+                        registerReq.getLastName().toUpperCase(),
                         encodedPassword,
                         registerReq.getPhone(),
                         LocalDate.now(),
@@ -53,8 +53,7 @@ public class UserService {
     }
 
     public Optional<UserUpdate> updateUserInfo(UserUpdate userUpdate, String login) {
-        Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(login);
-        return optionalUser.map(
+        return userRepository.findByEmailIgnoreCase(login).map(
                 user -> userMapperMapStruct.userToUpdateUser(
                         userRepository.save(userMapperMapStruct.userUpdateToUser(user, userUpdate))
                 )

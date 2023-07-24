@@ -15,8 +15,8 @@ public interface UserMapperMapStruct {
     UserUpdate userToUpdateUser(User user);
 
     default User userUpdateToUser(User user, UserUpdate userUpdate){
-        user.setFirstName(userUpdate.getFirstName().toUpperCase());
-        user.setLastName(userUpdate.getLastName().toUpperCase());
+        user.setFirstName(userUpdate.getFirstName());
+        user.setLastName(userUpdate.getLastName());
         user.setPhone(user.getPhone());
         return user;
     }

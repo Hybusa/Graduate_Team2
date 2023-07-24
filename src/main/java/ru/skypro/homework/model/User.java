@@ -33,7 +33,8 @@ public class User {
     @OneToMany(
             mappedBy = "author",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
     )
  // @JsonManagedReference
     @ToString.Exclude
