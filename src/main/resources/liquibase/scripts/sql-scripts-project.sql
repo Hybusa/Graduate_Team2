@@ -21,6 +21,7 @@ CREATE TABLE users
     image_id   BIGINT,
     role       VARCHAR(255),
     FOREIGN KEY (image_id) REFERENCES images (id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE ads

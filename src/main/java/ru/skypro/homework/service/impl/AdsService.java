@@ -1,5 +1,7 @@
 package ru.skypro.homework.service.impl;
 
+
+import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +17,7 @@ import ru.skypro.homework.repository.AdsRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -38,8 +41,10 @@ public class AdsService {
         return adsMapperMapStruct.adsToResponseWrapperAds(adsRepository.findAll());
     }
 
+    @NonNull
     public String getAdAuthorName(Long id){
-        return adsRepository.findById(id).map(ad -> ad.getAuthor().getEmail()).orElse(null);
+        return Objects.requireNonNull(adsRepository.findById(id)
+                .map(ad -> ad.getAuthor().getEmail()).orElseThrow(RuntimeException::new));
     }
 
     public Optional<Ad> getAdOptionalById(Long id){
@@ -77,7 +82,7 @@ public class AdsService {
         return adOptional.map(adsMapperMapStruct::adToResponseFullAd);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or authentication.name.equals(adsService.getAdAuthorName(id))")
+    @PreAuthorize("hasRole('ADMIN') OR authentication.name == @adsService.getAdAuthorName(#id)")
     public boolean deleteAdById(Long id) {
         Optional<Ad> adOptional = adsRepository.findById(id);
         if (adOptional.isEmpty()) {
@@ -87,7 +92,7 @@ public class AdsService {
         return true;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or authentication.name.equals(adsService.getAdAuthorName(id))")
+    @PreAuthorize("hasRole('ADMIN') OR authentication.name == @adsService.getAdAuthorName(#id)")
     public Optional<ResponseAd> updateAd(Long id, CreateOrUpdateAds updatedAd) {
         Optional<Ad> adOptional = adsRepository.findById(id);
         return adOptional.map(ad -> adsMapperMapStruct.adToResponseAd(
@@ -97,7 +102,7 @@ public class AdsService {
         ));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or authentication.name.equals(adsService.getAdAuthorName(id))")
+    @PreAuthorize("hasRole('ADMIN') OR authentication.name == @adsService.getAdAuthorName(#id)")
     public Optional<String> updateAdImage(Long id, MultipartFile image) {
         Optional<Ad> adOptional = adsRepository.findById(id);
         if (adOptional.isEmpty()) {

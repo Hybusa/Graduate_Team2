@@ -30,7 +30,7 @@ public class CommentService {
     }
 
     public String getCommentAuthorNameByCommentId(Long id){
-       return commentsRepository.findById(id).map(com -> com.getUser().getEmail()).orElse(null);
+       return commentsRepository.findById(id).map(com -> com.getUser().getEmail()).orElseThrow(RuntimeException::new);
     }
 
     public Optional<ResponseComment> createComment(Long id, CommentString commentString, String login){
@@ -61,8 +61,8 @@ public class CommentService {
         return commentsMapperMapStruct.commentsToResponseWrapperComments(responseCommentList);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') " +
-            "or authentication.name.equals(commentService.getCommentAuthorNameByCommentId(commentId))")
+    @PreAuthorize("hasRole('ADMIN') " +
+            "or authentication.name == @commentService.getCommentAuthorNameByCommentId(#commentId)")
     public boolean deleteAdComment(Long adId, Long commentId) {
         if(!commentsRepository.existsById(commentId)) {
             return false;
@@ -71,8 +71,8 @@ public class CommentService {
         return true;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') " +
-            "or authentication.name.equals(commentService.getCommentAuthorNameByCommentId(commentId))")
+    @PreAuthorize("hasRole('ADMIN') " +
+            "or authentication.name == @commentService.getCommentAuthorNameByCommentId(#commentId)")
     public Optional<ResponseComment> updateComment(Long adId, Long commentId, CommentString updatedComment) {
         Optional<Comment> commentOptional = commentsRepository.findById(commentId);
         if(commentOptional.isEmpty()) {
