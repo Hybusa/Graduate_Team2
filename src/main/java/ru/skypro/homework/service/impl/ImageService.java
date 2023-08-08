@@ -115,7 +115,5 @@ public class ImageService {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bi, format, baos);
         return baos.toByteArray();
-
     }
-
 }
