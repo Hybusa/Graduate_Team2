@@ -62,7 +62,7 @@ public class CommentService {
     }
 
     @PreAuthorize("hasRole('ADMIN') " +
-            "or authentication.name == @commentService.getCommentAuthorNameByCommentId(#commentId)")
+            "OR authentication.name == @commentService.getCommentAuthorNameByCommentId(#commentId)")
     public boolean deleteAdComment(Long adId, Long commentId) {
         if(!commentsRepository.existsById(commentId)) {
             return false;
@@ -72,7 +72,7 @@ public class CommentService {
     }
 
     @PreAuthorize("hasRole('ADMIN') " +
-            "or authentication.name == @commentService.getCommentAuthorNameByCommentId(#commentId)")
+            "OR authentication.name == @commentService.getCommentAuthorNameByCommentId(#commentId)")
     public Optional<ResponseComment> updateComment(Long adId, Long commentId, CommentString updatedComment) {
         Optional<Comment> commentOptional = commentsRepository.findById(commentId);
         if(commentOptional.isEmpty()) {

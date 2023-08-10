@@ -39,6 +39,7 @@ public class CommentController {
 
     @DeleteMapping("{adId}/comments/{commentsId}")
     public ResponseEntity<?> deleteAdComment(@PathVariable("adId") Long adId, @PathVariable("commentsId") Long commentId) {
+        SecurityContextHolder.getContext();
         if(commentService.deleteAdComment(adId,commentId)) {
             return ResponseEntity.ok().build();
         }
