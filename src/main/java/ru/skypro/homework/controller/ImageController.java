@@ -20,8 +20,4 @@ public class ImageController {
         return imageService.getImageBytes(imageName);
     }
 
-//    @GetMapping("{image}")
-//    public byte[] getImage(@PathVariable Image image){
-//        return imageService.getImageBytesFromImage(image);
-//    }
 }

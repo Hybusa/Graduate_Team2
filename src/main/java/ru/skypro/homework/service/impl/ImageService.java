@@ -33,14 +33,14 @@ public class ImageService {
         this.imageRepository = imageRepository;
     }
 
-    public boolean updateUserAvatar(MultipartFile image, String login) throws IOException {
+    public void updateUserAvatar(MultipartFile image, String login) throws IOException {
         Optional<User> userOptional = userService.getUserByLogin(login);
         if (userOptional.isEmpty()) {
-            return false;
+            return;
         }
         User user = userOptional.get();
         if (image == null ||image.getOriginalFilename()==null) {
-            return false;
+            return;
         }
 
         String fileName = image.getOriginalFilename();
@@ -53,7 +53,6 @@ public class ImageService {
 
         user.setImage(imageRepository.save(newImage));
         userService.updateUserImage(user);
-        return true;
     }
 
     public Image addAdImage(MultipartFile image, long adId) throws IOException {
@@ -116,7 +115,5 @@ public class ImageService {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bi, format, baos);
         return baos.toByteArray();
-
     }
-
 }

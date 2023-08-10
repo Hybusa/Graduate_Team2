@@ -3,6 +3,8 @@ package ru.skypro.homework.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -25,6 +27,7 @@ public class User {
 
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "image_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Image image;
 
     @Enumerated(EnumType.STRING)
@@ -33,9 +36,9 @@ public class User {
     @OneToMany(
             mappedBy = "author",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
     )
- // @JsonManagedReference
     @ToString.Exclude
     private List<Ad> userAds;
 

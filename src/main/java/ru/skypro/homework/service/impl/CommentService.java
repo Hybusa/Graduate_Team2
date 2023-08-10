@@ -1,5 +1,6 @@
 package ru.skypro.homework.service.impl;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.comments.CommentString;
 import ru.skypro.homework.dto.comments.ResponseComment;
@@ -8,7 +9,6 @@ import ru.skypro.homework.mapper.mapStruct.CommentsMapperMapStruct;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.Comment;
 import ru.skypro.homework.model.User;
-import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.CommentsRepository;
 
 import java.util.ArrayList;
@@ -18,20 +18,24 @@ import java.util.Optional;
 @Service
 public class CommentService {
     private final CommentsRepository commentsRepository;
-    private final AdsRepository adsRepository;
+    private final AdsService adsService;
     private final UserService userService;
     private final CommentsMapperMapStruct commentsMapperMapStruct;
 
-    public CommentService(CommentsRepository commentsRepository, AdsRepository adsRepository, UserService userService, CommentsMapperMapStruct commentsMapperMapStruct) {
+    public CommentService(CommentsRepository commentsRepository, AdsService adsService, UserService userService, CommentsMapperMapStruct commentsMapperMapStruct) {
         this.commentsRepository = commentsRepository;
-        this.adsRepository = adsRepository;
+        this.adsService = adsService;
         this.userService = userService;
         this.commentsMapperMapStruct = commentsMapperMapStruct;
     }
 
+    public String getCommentAuthorNameByCommentId(Long id){
+       return commentsRepository.findById(id).map(com -> com.getUser().getEmail()).orElseThrow(RuntimeException::new);
+    }
+
     public Optional<ResponseComment> createComment(Long id, CommentString commentString, String login){
         Comment comment = new Comment();
-        Optional<Ad> adOptional = adsRepository.findById(id);
+        Optional<Ad> adOptional = adsService.getAdOptionalById(id);
         if(adOptional.isEmpty()) {
             return Optional.empty();
         }
@@ -57,6 +61,8 @@ public class CommentService {
         return commentsMapperMapStruct.commentsToResponseWrapperComments(responseCommentList);
     }
 
+    @PreAuthorize("hasRole('ADMIN') " +
+            "or authentication.name == @commentService.getCommentAuthorNameByCommentId(#commentId)")
     public boolean deleteAdComment(Long adId, Long commentId) {
         if(!commentsRepository.existsById(commentId)) {
             return false;
@@ -65,6 +71,8 @@ public class CommentService {
         return true;
     }
 
+    @PreAuthorize("hasRole('ADMIN') " +
+            "or authentication.name == @commentService.getCommentAuthorNameByCommentId(#commentId)")
     public Optional<ResponseComment> updateComment(Long adId, Long commentId, CommentString updatedComment) {
         Optional<Comment> commentOptional = commentsRepository.findById(commentId);
         if(commentOptional.isEmpty()) {

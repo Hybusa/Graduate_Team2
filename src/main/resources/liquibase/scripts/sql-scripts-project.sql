@@ -5,22 +5,23 @@
 CREATE TABLE images
 (
     id         BIGSERIAL PRIMARY KEY,
-    file_name  VARCHAR(255),
-    media_type VARCHAR(255)
+    file_name  VARCHAR(32),
+    media_type VARCHAR(16)
 );
 
 CREATE TABLE users
 (
     id         BIGSERIAL PRIMARY KEY,
-    email      VARCHAR(255) NOT NULL,
-    first_name VARCHAR(255),
-    last_name  VARCHAR(255),
-    password   VARCHAR(255),
-    phone      VARCHAR(255),
+    email      VARCHAR(64) UNIQUE NOT NULL,
+    first_name VARCHAR(64),
+    last_name  VARCHAR(64),
+    password   VARCHAR(64),
+    phone      VARCHAR(13),
     reg_date   DATE,
     image_id   BIGINT,
-    role       VARCHAR(255),
+    role       VARCHAR(8),
     FOREIGN KEY (image_id) REFERENCES images (id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE ads
@@ -29,8 +30,8 @@ CREATE TABLE ads
     user_id     BIGINT NOT NULL,
     image_id    BIGINT,
     price       INT,
-    title       VARCHAR(255),
-    description varchar(255),
+    title       VARCHAR(32),
+    description varchar(64),
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (image_id) REFERENCES images (id)
         ON DELETE CASCADE

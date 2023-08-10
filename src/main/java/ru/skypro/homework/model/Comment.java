@@ -14,13 +14,11 @@ public class Comment {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-  //  @JsonBackReference
     private User user;
     private long createdAt;
     private String text;
 
     @ManyToOne
     @JoinColumn(name = "ad_id", nullable = false)
-  //  @JsonBackReference
     private Ad ad;
 }

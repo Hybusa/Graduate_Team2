@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +34,6 @@ public class UserController {
 
 
     @PostMapping("set_password")
-    @PreAuthorize("hasRole('READ_PRIVILEGE')")
     public ResponseEntity<?> setPassword(@RequestBody NewPassword newPassword) {
 
         if (authService.changeUserPassword(SecurityContextHolder
@@ -81,11 +79,10 @@ public class UserController {
     @PatchMapping(value = "me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateUserImage(@RequestPart MultipartFile image) throws IOException {
 
-        if(imageService.updateUserAvatar(image, SecurityContextHolder
+        imageService.updateUserAvatar(image, SecurityContextHolder
                 .getContext()
                 .getAuthentication()
-                .getName()))
-           return ResponseEntity.ok().build();
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                .getName());
+        return ResponseEntity.ok().build();
     }
 }

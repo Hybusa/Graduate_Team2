@@ -1,5 +1,8 @@
 package ru.skypro.homework.service.impl;
 
+
+import org.springframework.lang.NonNull;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.ads.CreateOrUpdateAds;
@@ -14,6 +17,7 @@ import ru.skypro.homework.repository.AdsRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -35,6 +39,16 @@ public class AdsService {
 
     public ResponseWrapperAds getAllAds() {
         return adsMapperMapStruct.adsToResponseWrapperAds(adsRepository.findAll());
+    }
+
+    @NonNull
+    public String getAdAuthorName(Long id){
+        return Objects.requireNonNull(adsRepository.findById(id)
+                .map(ad -> ad.getAuthor().getEmail()).orElseThrow(RuntimeException::new));
+    }
+
+    public Optional<Ad> getAdOptionalById(Long id){
+        return adsRepository.findById(id);
     }
 
     public ResponseWrapperAds getMyAds(String login) {
@@ -68,25 +82,7 @@ public class AdsService {
         return adOptional.map(adsMapperMapStruct::adToResponseFullAd);
     }
 
-    public Boolean deleteAdById(String login, Long id) {
-        if (!adsRepository.existsById(id)) {
-            return false;
-        }
-        Optional<User> userOptional = userService.getUserByLogin(login);
-        if (userOptional.isEmpty()) {
-            return false;
-        }
-        Optional<Ad> adOptional = adsRepository.findById(id);
-        if (adOptional.isEmpty()) {
-            return false;
-        }
-        if (!adOptional.get().getAuthor().getId().equals(userOptional.get().getId())) {
-            return null;
-        }
-        adsRepository.deleteById(id);
-        return true;
-    }
-
+    @PreAuthorize("hasRole('ADMIN') OR authentication.name == @adsService.getAdAuthorName(#id)")
     public boolean deleteAdById(Long id) {
         Optional<Ad> adOptional = adsRepository.findById(id);
         if (adOptional.isEmpty()) {
@@ -96,6 +92,7 @@ public class AdsService {
         return true;
     }
 
+    @PreAuthorize("hasRole('ADMIN') OR authentication.name == @adsService.getAdAuthorName(#id)")
     public Optional<ResponseAd> updateAd(Long id, CreateOrUpdateAds updatedAd) {
         Optional<Ad> adOptional = adsRepository.findById(id);
         return adOptional.map(ad -> adsMapperMapStruct.adToResponseAd(
@@ -105,6 +102,7 @@ public class AdsService {
         ));
     }
 
+    @PreAuthorize("hasRole('ADMIN') OR authentication.name == @adsService.getAdAuthorName(#id)")
     public Optional<String> updateAdImage(Long id, MultipartFile image) {
         Optional<Ad> adOptional = adsRepository.findById(id);
         if (adOptional.isEmpty()) {
