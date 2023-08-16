@@ -1,4 +1,3 @@
-![logo](https://github.com/AnastasiaSychkova/HelloWorld/blob/master/Screenshot%202022-03-14%20at%2015.10.20.png)
 # Бэк для сайта
 ## Стек технологий
 - Java 11
