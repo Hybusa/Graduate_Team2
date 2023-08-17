@@ -45,7 +45,7 @@ public class UserService {
                 .forEach(u -> result.add(org.springframework.security.core.userdetails.User.builder()
                                 .username(u.getEmail())
                                 .password(u.getPassword())
-                                .roles(Role.USER.name())
+                                .roles(u.getRole().name())
                                 .build()
                         )
                 );
